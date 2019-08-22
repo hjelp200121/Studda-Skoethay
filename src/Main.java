@@ -24,6 +24,14 @@ public class Main extends PApplet {
 	}
 	
 	public void draw() {
+		background(255);
 		
+	}
+	
+	public void keyPressed() {
+		if (key == ' ') {
+			//balls.add(new Ball(??????)); - change later
+			System.out.println("yep");
+		}
 	}
 }
