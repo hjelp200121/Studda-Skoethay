@@ -35,4 +35,9 @@ public class Vector {
 		x /= d;
 		y /= d;
 	}
+	
+	public void copy (Vector v) {
+		x = v.x;
+		y = v.y;
+	}
 }

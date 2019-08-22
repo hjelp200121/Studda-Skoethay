@@ -30,8 +30,7 @@ public class Main extends PApplet {
 	
 	public void keyPressed() {
 		if (key == ' ') {
-			//balls.add(new Ball(??????)); - change later
-			System.out.println("yep");
+			balls.add(new Ball(new Vector(1,1), new Vector(2,2)));
 		}
 	}
 }
