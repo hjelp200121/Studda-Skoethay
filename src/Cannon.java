@@ -2,6 +2,7 @@ import processing.core.PImage;
 
 public class Cannon {
 	int cannonX, cannonY;
-	static String imagePath = "data/ketchup.png";
+	static String barrelPath = "data/cannonBarrel.png";
+	static String basePath = "data/cannonBase.png";
 	PImage cannonBase, cannonBarrel;
 }	
