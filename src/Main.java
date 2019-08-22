@@ -7,10 +7,13 @@ public class Main extends PApplet {
 	}
 
 	public void settings() {
-		
+		size(1000, 1000);
 	}
 	
 	public void setup() {
+		frameRate(60);
+		smooth();
+		background(255);
 		
 	}
 	
