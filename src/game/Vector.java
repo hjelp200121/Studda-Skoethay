@@ -50,6 +50,22 @@ public class Vector {
 		return new Vector(0, 0);
 	}
 	
+	public static Vector add (Vector v1, Vector v2) {
+		return new Vector(v1.x + v2.x, v1.y + v2.y);
+	}
+	
+	public static Vector sub (Vector v1, Vector v2) {
+		return new Vector(v1.x - v2.x, v1.y - v2.y);
+	}
+	
+	public static Vector mul (Vector v, float d) {
+		return new Vector(v.x * d, v.y * d);
+		}
+	
+	public static Vector div (Vector v, float d) {
+		return new Vector(v.x / d, v.y / d);
+	}
+		
 	public void add (Vector v) {
 		x += v.x;
 		y += v.y;
