@@ -15,6 +15,10 @@ public class Ball extends PApplet{
 		velocity.mul(friction);
 		position.add(velocity);
 		
+		pushMatrix();
 		translate(position.x, position.y);
+		rotate(rotation);
+		ellipse(0, 0, radius, radius);
+		popMatrix();
 	}
 }
