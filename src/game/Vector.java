@@ -2,16 +2,19 @@ package game;
 public class Vector {
 	public float x, y;
 	
+	/** Constructor for a vector*/
 	public Vector (float x, float y) {
 		this.x = x;
 		this.y = y;
 	}
 	
+	/** Alternative to writing Vector */
 	public Vector () {
 		x = 0;
 		y = 0;
 	}
 	
+	/** Constructor for a vector using another vector */
 	public Vector (Vector v) {
 		x = v.x;
 		y = v.y;
@@ -46,7 +49,6 @@ public class Vector {
 	public static Vector zero() {
 		return new Vector(0, 0);
 	}
-
 	
 	public void add (Vector v) {
 		x += v.x;
