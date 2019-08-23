@@ -1,7 +1,7 @@
 public class Vector {
-	public double x, y;
+	public float x, y;
 	
-	public Vector (double x, double y) {
+	public Vector (float x, float y) {
 		this.x = x;
 		this.y = y;
 	}
@@ -57,12 +57,12 @@ public class Vector {
 		y -= v.y;
 	}
 	
-	public void mul (double d) {
+	public void mul (float d) {
 		x *= d;
 		y *= d;
 	}
 	
-	public void div (double d) {
+	public void div (float d) {
 		x /= d;
 		y /= d;
 	}
