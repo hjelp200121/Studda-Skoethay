@@ -1,3 +1,4 @@
+package game;
 public class Vector {
 	public float x, y;
 	
