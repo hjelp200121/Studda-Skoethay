@@ -1,3 +1,4 @@
+package game;
 import processing.core.PImage;
 
 public class Cannon {

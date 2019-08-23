@@ -1,3 +1,4 @@
+package game;
 import processing.core.PApplet;
 import java.util.ArrayList;
 import java.util.List;
