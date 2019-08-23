@@ -1,7 +1,8 @@
 package game;
-import processing.core.PApplet;
 
-public class Ball extends PApplet{
+public class Ball {
+	static GameManager gm = GameManager.gm;
+	
 	Vector position, velocity;
 	public static float radius = 25;
 	public static float friction = 0.95f;
@@ -16,10 +17,10 @@ public class Ball extends PApplet{
 		velocity.mul(friction);
 		position.add(velocity);
 		
-		pushMatrix();
-		translate(position.x, position.y);
-		rotate(rotation);
-		ellipse(0, 0, radius, radius);
-		popMatrix();
+		gm.pushMatrix();
+		gm.translate(position.x, position.y);
+		gm.rotate(rotation);
+		gm.ellipse(0, 0, radius, radius);
+		gm.popMatrix();
 	}
 }

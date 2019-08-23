@@ -1,37 +1,24 @@
 package game;
-import processing.core.PApplet;
-import java.util.ArrayList;
-import java.util.List;
 
-public class Main extends PApplet {
-	
-	List<Ball> balls;
+import processing.core.PApplet;
+
+public class Main {
+
+	public static final String sketchName = "game.StuddaSkøthay";
 
 	public static void main(String[] args) {
-		PApplet.main("Main");
+		String[] pAppletArgs = getPAppletArgs(args);
+		PApplet.main(pAppletArgs);
+
 	}
 
-	public void settings() {
-		size(1000, 1000);
-		
-		balls = new ArrayList<Ball>();
-	}
-	
-	public void setup() {
-		frameRate(60);
-		smooth();
-		background(255);
-		
-	}
-	
-	public void draw() {
-		background(255);
-		
-	}
-	
-	public void keyPressed() {
-		if (key == ' ') {
-			balls.add(new Ball(new Vector(1,1), new Vector(2,2)));
+	static String[] getPAppletArgs(String[] args) {
+		String[] pAppletArgs = new String[args.length + 1];
+		pAppletArgs[0] = sketchName;
+		for (int i = 1; i < pAppletArgs.length; i++) {
+			pAppletArgs[i] = args[i - 1];
 		}
+		return pAppletArgs;
 	}
+
 }
