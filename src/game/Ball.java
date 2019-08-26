@@ -7,7 +7,7 @@ public class Ball {
 	public static float radius = 25;
 	public static float friction = 0.95f;
 	public float rotation = 5;
-	static public Vector gravity = Vector.mul(Vector.down(), 0.2f);
+	static public Vector gravity = Vector.mul(Vector.down(), 0.1f);
 	
 	/** Constructor for a ball */
 	Ball(Vector pos, Vector vel) {
