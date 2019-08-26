@@ -4,12 +4,11 @@ import processing.core.PApplet;
 
 public class Main {
 
-	public static final String sketchName = "game.StuddaSkoethay";
+	public static final String sketchName = "game.GameManager";
 
 	public static void main(String[] args) {
 		String[] pAppletArgs = getPAppletArgs(args);
 		PApplet.main(pAppletArgs);
-
 	}
 
 	static String[] getPAppletArgs(String[] args) {
