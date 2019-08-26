@@ -12,6 +12,7 @@ public class GameManager extends PApplet {
 	Deque<Ball> balls;
 	Cannon C;
 
+	//size and initialisation 
 	public void settings() {
 		System.out.println("Starting application...");
 		gm = this;
@@ -20,15 +21,16 @@ public class GameManager extends PApplet {
 		balls = new ArrayDeque<Ball>();
 	}
 	
+	//basic settings
 	public void setup() {
 		frameRate(60);
 		smooth();
 		background(255);
 		C = new Cannon(new Vector(400,400),null,50,30,10,5,10);
 		
-		balls.push(new Ball (new Vector(50,500), new Vector(5,0)));
 	}
 	
+	//drawing everything
 	public void draw() {
 		background(255);
 		C.show();
@@ -38,9 +40,10 @@ public class GameManager extends PApplet {
 		}
 	}
 	
+	//spawning a ball when space is pressed
 	public void keyPressed() {
 		if (key == ' ') {
-			balls.add(new Ball(new Vector(1,1), new Vector(2,2)));
+			balls.add(new Ball(new Vector(0,0), new Vector(5,0)));
 		}
 	}
 }
