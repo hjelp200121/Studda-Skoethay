@@ -8,7 +8,7 @@ public class Ball {
 	
 	Vector position, velocity;
 	public static float radius = 25;
-	public static float friction = 0.95f;
+	public static float friction = 0.99f;
 	public float rotation = 1f;
 	public float angle = 0f;
 	static String ballPath = "data/cannonBall.png";
@@ -25,10 +25,32 @@ public class Ball {
 	void update() {
 		
 		//changing position and speed
-		//velocity.mul(friction);
+		velocity.mul(friction);
 		velocity.add(gravity);
 		position.add(velocity);
 		angle += rotation;
+		
+		/** wall bounds */
+		if (position.x < 0 + radius) {
+			velocity.x *= -1;
+			position.x = 0 + radius;
+			rotation *= 0.75;
+		}
+		if (position.x > 1200 - radius) {
+			velocity.x *= -1;
+			position.x = 1200 - radius;
+			rotation *= 0.75;
+		}
+		if (position.y < 0 + radius) {
+			velocity.y *= -1;
+			position.y = 0 + radius;
+			rotation *= 0.75;
+		}
+		if (position.y > 600 - radius) {
+			velocity.y *= -1;
+			position.y = 600 - radius;
+			rotation *= 0.75;
+		}
 		
 		//Drawing the ball and rotation
 		gm.imageMode(PApplet.CENTER);
