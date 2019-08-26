@@ -7,6 +7,7 @@ public class Ball {
 	public static float radius = 25;
 	public static float friction = 0.95f;
 	public float rotation = 5;
+	static public Vector gravity = Vector.mul(Vector.down(), 5);
 	
 	/** Constructor for a ball */
 	Ball(Vector pos, Vector vel) {
@@ -19,6 +20,7 @@ public class Ball {
 		//changing position and speed
 		velocity.mul(friction);
 		position.add(velocity);
+		position.add(gravity);
 		
 		//Drawing the ball and rotation
 		gm.pushMatrix();
