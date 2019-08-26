@@ -1,5 +1,8 @@
 package game;
 
+import processing.core.PApplet;
+import processing.core.PImage;
+
 public class Ball {
 	static GameManager gm = GameManager.gm;
 	
@@ -7,12 +10,15 @@ public class Ball {
 	public static float radius = 25;
 	public static float friction = 0.95f;
 	public float rotation = 5;
+	static String ballPath = "data/cannonBall.png";
+	private PImage cannonBall;
 	static public Vector gravity = Vector.mul(Vector.down(), 0.1f);
 	
 	/** Constructor for a ball */
 	Ball(Vector pos, Vector vel) {
 		position = pos;
 		velocity = vel;
+		this.cannonBall   = gm.loadImage(ballPath);
 	}
 	
 	void update() {
@@ -23,10 +29,12 @@ public class Ball {
 		position.add(velocity);
 		
 		//Drawing the ball and rotation
+		gm.imageMode(PApplet.CENTER);
+		cannonBall.resize(50,0);
 		gm.pushMatrix();
 		gm.translate(position.x, position.y);
 		gm.rotate(rotation);
-		gm.ellipse(0, 0, radius, radius);
+		gm.image(cannonBall,0,0);
 		gm.popMatrix();
 	}
 }

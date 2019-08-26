@@ -15,8 +15,7 @@ public class GameManager extends PApplet {
 	public void settings() {
 		System.out.println("Starting application...");
 		gm = this;
-		
-		size(1000, 1000);
+		size(1200, 600);
 		balls = new ArrayDeque<Ball>();
 	}
 	
@@ -24,7 +23,7 @@ public class GameManager extends PApplet {
 		frameRate(60);
 		smooth();
 		background(255);
-		C = new Cannon(new Vector(400,400),null,50,30,10,5,10);
+		C = new Cannon(new Vector(80,570),null,50,30,10,5,10);
 		
 		balls.push(new Ball (new Vector(50,500), new Vector(5,0)));
 	}
