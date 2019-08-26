@@ -10,6 +10,7 @@ public class GameManager extends PApplet {
 	static GameManager gm = null;
 	
 	List<Ball> balls;
+	Cannon C;
 
 	public void settings() {
 		System.out.println("Starting application...");
@@ -23,12 +24,13 @@ public class GameManager extends PApplet {
 		frameRate(60);
 		smooth();
 		background(255);
+		C = new Cannon(new Vector(400,400),null,50,30,10,5,10);
 		
 	}
 	
 	public void draw() {
 		background(255);
-		
+		C.show();
 	}
 	
 	public void keyPressed() {

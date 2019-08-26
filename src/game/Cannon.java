@@ -1,6 +1,7 @@
 package game;
 import java.util.Deque;
 
+import processing.core.PApplet;
 import processing.core.PImage;
 
 public class Cannon {
@@ -32,5 +33,13 @@ public class Cannon {
 		this.cannonBase   = gm.loadImage(basePath);
 		this.cannonBarrel = gm.loadImage(barrelPath);
 		this.barrelPivot  = Vector.add(position, barrelPivotOffset);
+	}
+	
+	public void show() {
+		gm.imageMode(PApplet.CENTER);
+		cannonBarrel.resize(100,0);
+		cannonBase.resize(50,0);
+		gm.image(cannonBarrel,position.x,position.y - 22);
+		gm.image(cannonBase,position.x,position.y);
 	}
 }
