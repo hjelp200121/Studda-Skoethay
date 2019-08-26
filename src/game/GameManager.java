@@ -1,6 +1,8 @@
 package game;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
+import java.util.List;
 
 import processing.core.PApplet;
 
@@ -10,7 +12,8 @@ public class GameManager extends PApplet {
 	static GameManager gm = null;
 
 	/* The C&Bs */
-	Deque<Ball> balls;
+	Deque<Ball> ammunition;
+	List<Ball> balls;
 	Cannon C;
 
 	/** size and initialisation */
@@ -19,8 +22,9 @@ public class GameManager extends PApplet {
 		/* Set the static singleton instance. */
 		gm = this;
 		size(1200, 600);
-		/* Initialize the stack of ammunition. */
-		balls = new ArrayDeque<Ball>();
+		/* Initialise the stack of ammunition. */
+		ammunition = new ArrayDeque<Ball>();
+		balls = new ArrayList<Ball>();
 	}
 	
 	/** basic settings */
@@ -28,10 +32,10 @@ public class GameManager extends PApplet {
 		frameRate(60);
 		smooth();
 		background(255);
-		/* Initialize the cannon. */
-		C = new Cannon(new Vector(400,400),balls,50,30,10,5,10);
+		/* Initialise the cannon. */
+		C = new Cannon(new Vector(400,400),ammunition,50,30,10,5,10);
 		/* Load ammunition into the stack. */
-		balls.push(new Ball (new Vector(50,500), new Vector(5,0)));
+		ammunition.push(new Ball (new Vector(50,500), new Vector(5,0)));
 	}
 	
 	/** drawing everything */
@@ -39,7 +43,7 @@ public class GameManager extends PApplet {
 		background(255);
 		/* Draw the cannon and balls. */
 		C.show();
-		for (Ball b : balls) {
+		for (Ball b : ammunition) {
 			b.update();
 		}
 	}
@@ -49,7 +53,7 @@ public class GameManager extends PApplet {
 		/* When the user presses 'space',
 		 * add a new ball to the stack. */
 		if (key == ' ') {
-			balls.push(new Ball(new Vector(0,0), new Vector(5,0)));
+			ammunition.push(new Ball(new Vector(0,0), new Vector(5,0)));
 		}
 	}
 }

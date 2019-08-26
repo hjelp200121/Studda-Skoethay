@@ -27,6 +27,11 @@ public class Ball {
 		//changing position and speed
 		velocity.mul(friction);
 		velocity.add(gravity);
+		if (Math.abs(velocity.x) + Math.abs(velocity.y) < 0.1) {
+			velocity.mul(0);
+			rotation = 0;
+			
+		}
 		position.add(velocity);
 		angle += rotation;
 		

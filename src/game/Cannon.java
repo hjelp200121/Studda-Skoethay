@@ -42,4 +42,9 @@ public class Cannon {
 		gm.image(cannonBarrel,position.x,position.y - 22);
 		gm.image(cannonBase,position.x,position.y);
 	}
+	
+	public void shoot() {
+		
+	}
+	}
 }
