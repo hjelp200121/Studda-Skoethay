@@ -6,22 +6,26 @@ import processing.core.PImage;
 public class Ball {
 	static GameManager gm = GameManager.gm;
 	
-	Vector position, velocity;
-	public static float radius = 25;
+	public Transform transform;
+	public Vector velocity;
 	public static float friction = 0.99f;
-	public float rotation = 1f;
-	public float angle = 0f;
+	public float angularVelocity = 0.1f;
 	static String ballPath = "data/cannonBall.png";
 	private PImage cannonBall;
-	static public Vector gravity = Vector.mul(Vector.down(), 0.1f);
+	static public Vector gravity = Vector.mul(Vector.down(), 1f/2000f*Transform.UPH);
 	
 	/** Constructor for a ball */
-	Ball(Vector pos, Vector vel) {
-		position = pos;
+	Ball(Vector pos, Vector scale, float angle, Vector vel) {
+		transform = new Transform(pos, scale, angle);
 		velocity = vel;
 		this.cannonBall = gm.loadImage(ballPath);
 	}
 	
+	/** Constructor for a ball */
+	Ball(Vector pos, Vector vel) {
+		this(pos, Vector.one(), 0f, vel);
+	}
+
 	void update() {
 		
 		//changing position and speed
@@ -32,43 +36,43 @@ public class Ball {
 			rotation = 0;
 			
 		} */
-		position.add(velocity);
-		angle += rotation;
+		transform.position.add(velocity);
+		transform.rotation += angularVelocity;
 		
 		/** wall bounds */
-		if (position.x < 0 + AngleCollision()) {
+		if (transform.position.x < 0 + AngleCollision()) {
 			velocity.x *= -1;
-			position.x = 0 + AngleCollision();
-			rotation *= 0.75;
+			transform.position.x = 0 + AngleCollision();
+			angularVelocity *= 0.75;
 		}
-		if (position.x > 1200 - AngleCollision()) {
+		if (transform.position.x > Transform.UPW - AngleCollision()) {
 			velocity.x *= -1;
-			position.x = 1200 - AngleCollision();
-			rotation *= 0.75;
+			transform.position.x = Transform.UPW - AngleCollision();
+			angularVelocity *= 0.75;
 		}
-		if (position.y < 0 + AngleCollision()) {
+		if (transform.position.y < 0 + AngleCollision()) {
 			velocity.y *= -1;
-			position.y = 0 + AngleCollision();
-			rotation *= 0.75;
+			transform.position.y = 0 + AngleCollision();
+			angularVelocity *= 0.75;
 		}
-		if (position.y > 600 - AngleCollision()) {
+		if (transform.position.y > Transform.UPH - AngleCollision()) {
 			velocity.y *= -1;
-			position.y = 600 - AngleCollision();
-			rotation *= 0.75;
+			transform.position.y = Transform.UPH - AngleCollision();
+			angularVelocity *= 0.75;
 		}
 		
 		//Drawing the ball and rotation
 		gm.imageMode(PApplet.CENTER);
-		cannonBall.resize(50,0);
+		cannonBall.resize((int) transform.toScreenScale().x, (int) -transform.toScreenScale().y);
 		gm.pushMatrix();
-		gm.translate(position.x, position.y);
-		gm.rotate(angle);
+		gm.translate(transform.toScreenPoint().x, transform.toScreenPoint().y);
+		gm.rotate(transform.rotation);
 		gm.image(cannonBall,0,0);
 		gm.popMatrix();
 	}
 	
 	/** makes the hitbox as a function of the angle */
 	float AngleCollision() {
-		return (float) (-Math.abs (Math.sin (angle * 2 + Math.PI / 2)) * 0.4 + 1.4) * radius;
+		return (float) (-Math.abs (Math.sin (transform.rotation * 2 + Math.PI / 2)) * 0.4 + 1.4) * transform.scale.x/2f;
 	}
 }
