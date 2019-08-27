@@ -9,21 +9,22 @@ public class Ball {
 	public Transform transform;
 	public Vector velocity;
 	public static float friction = 0.99f;
-	public float angularVelocity = 0.1f;
+	public float angularVelocity;
 	static String ballPath = "data/cannonBall.png";
 	private PImage cannonBall;
 	static public Vector gravity = Vector.mul(Vector.down(), 1f/2000f*Transform.UPH);
 	
 	/** Constructor for a ball */
-	Ball(Vector pos, Vector scale, float angle, Vector vel) {
+	Ball(Vector pos, Vector scale, float angle, Vector vel, float angularVel) {
 		transform = new Transform(pos, scale, angle);
 		velocity = vel;
+		angularVelocity = angularVel;
 		this.cannonBall = gm.loadImage(ballPath);
 	}
 	
 	/** Constructor for a ball */
-	Ball(Vector pos, Vector vel) {
-		this(pos, Vector.one(), 0f, vel);
+	Ball(Vector pos, Vector vel, float angularVel) {
+		this(pos, Vector.one(), 0f, vel, angularVel);
 	}
 
 	void update() {
@@ -43,22 +44,22 @@ public class Ball {
 		if (transform.position.x < 0 + AngleCollision()) {
 			velocity.x *= -1;
 			transform.position.x = 0 + AngleCollision();
-			angularVelocity *= 0.75;
+			doCollision();
 		}
 		if (transform.position.x > Transform.UPW - AngleCollision()) {
 			velocity.x *= -1;
 			transform.position.x = Transform.UPW - AngleCollision();
-			angularVelocity *= 0.75;
+			doCollision();
 		}
 		if (transform.position.y < 0 + AngleCollision()) {
 			velocity.y *= -1;
 			transform.position.y = 0 + AngleCollision();
-			angularVelocity *= 0.75;
+			doCollision();
 		}
 		if (transform.position.y > Transform.UPH - AngleCollision()) {
 			velocity.y *= -1;
 			transform.position.y = Transform.UPH - AngleCollision();
-			angularVelocity *= 0.75;
+			doCollision();
 		}
 		
 		//Drawing the ball and rotation
@@ -69,6 +70,10 @@ public class Ball {
 		gm.rotate(transform.rotation);
 		gm.image(cannonBall,0,0);
 		gm.popMatrix();
+	}
+
+	void doCollision () {
+		angularVelocity *= (float) -Math.cos(transform.rotation);
 	}
 	
 	/** makes the hitbox as a function of the angle */
