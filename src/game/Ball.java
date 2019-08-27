@@ -27,33 +27,33 @@ public class Ball {
 		//changing position and speed
 		velocity.mul(friction);
 		velocity.add(gravity);
-		if (Math.abs(velocity.x) + Math.abs(velocity.y) < 0.1) {
+		/*if (Math.abs(velocity.x) + Math.abs(velocity.y) < 0.1) {
 			velocity.mul(0);
 			rotation = 0;
 			
-		}
+		} */
 		position.add(velocity);
 		angle += rotation;
 		
 		/** wall bounds */
-		if (position.x < 0 + radius) {
+		if (position.x < 0 + AngleCollision()) {
 			velocity.x *= -1;
-			position.x = 0 + radius;
+			position.x = 0 + AngleCollision();
 			rotation *= 0.75;
 		}
-		if (position.x > 1200 - radius) {
+		if (position.x > 1200 - AngleCollision()) {
 			velocity.x *= -1;
-			position.x = 1200 - radius;
+			position.x = 1200 - AngleCollision();
 			rotation *= 0.75;
 		}
-		if (position.y < 0 + radius) {
+		if (position.y < 0 + AngleCollision()) {
 			velocity.y *= -1;
-			position.y = 0 + radius;
+			position.y = 0 + AngleCollision();
 			rotation *= 0.75;
 		}
-		if (position.y > 600 - radius) {
+		if (position.y > 600 - AngleCollision()) {
 			velocity.y *= -1;
-			position.y = 600 - radius;
+			position.y = 600 - AngleCollision();
 			rotation *= 0.75;
 		}
 		
@@ -65,5 +65,10 @@ public class Ball {
 		gm.rotate(angle);
 		gm.image(cannonBall,0,0);
 		gm.popMatrix();
+	}
+	
+	/** makes the hitbox as a function of the angle */
+	float AngleCollision() {
+		return (float) (-Math.abs (Math.sin (angle * 2 + Math.PI / 2)) * 0.4 + 1.4) * radius;
 	}
 }

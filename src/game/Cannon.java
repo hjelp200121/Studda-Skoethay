@@ -46,5 +46,4 @@ public class Cannon {
 	public void shoot() {
 		
 	}
-	}
 }
