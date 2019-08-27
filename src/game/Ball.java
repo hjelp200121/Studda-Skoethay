@@ -40,10 +40,10 @@ public class Ball {
 		velocity.sub(Vector.div(Vector.mul(velocity, friction), (gm.frameRate)));
 		velocity.add(Vector.div(gravity, gm.frameRate));
 		
-		/*if (Math.abs(velocity.x) + Math.abs(velocity.y) < 0.1) {
+		if (Math.abs(velocity.x) + Math.abs(velocity.y) < 0.01) {
 			velocity.mul(0);
-			rotation = 0;
-		} */
+			angularVelocity = 0;
+		}
 		
 		transform.position.add(Vector.div(velocity, gm.frameRate));
 		transform.rotation += angularVelocity / gm.frameRate;
@@ -80,6 +80,7 @@ public class Ball {
 		gm.popMatrix();
 	}
 
+	/** changes rotation when hitting a wall/ground */
 	void doCollision () {
 		angularVelocity *= (float) -Math.cos(transform.rotation);
 	}
