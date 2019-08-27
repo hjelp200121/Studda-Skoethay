@@ -35,7 +35,6 @@ public class GameManager extends PApplet {
 		/* Initialise the cannon. */
 		C = new Cannon(new Vector(400,400),ammunition,50,30,10,5,10);
 		/* Load ammunition into the stack. */
-		ammunition.push(new Ball (new Vector(1,8), new Vector(5f/2000f*Transform.UPW,0)));
 	}
 	
 	/** drawing everything */
@@ -53,7 +52,7 @@ public class GameManager extends PApplet {
 		/* When the user presses 'space',
 		 * add a new ball to the stack. */
 		if (key == ' ') {
-			ammunition.push(new Ball(new Vector(1,Transform.UPH-1), new Vector(5f/2000f*16f,0)));
+			ammunition.push(new Ball(new Vector(1,Transform.UPH-1), new Vector(5f/2000f*16f,0), 0.2f));
 		}
 	}
 }
