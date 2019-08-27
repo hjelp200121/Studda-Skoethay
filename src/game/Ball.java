@@ -30,13 +30,14 @@ public class Ball {
 		
 		//changing position and speed
 		velocity.mul(friction);
-		velocity.add(gravity);
+		velocity.add(Vector.div(gravity, gm.frameRate));
+		
 		/*if (Math.abs(velocity.x) + Math.abs(velocity.y) < 0.1) {
 			velocity.mul(0);
 			rotation = 0;
-			
 		} */
-		transform.position.add(velocity);
+		
+		transform.position.add(Vector.div(velocity, gm.frameRate));
 		transform.rotation += angularVelocity;
 		
 		/** wall bounds */
