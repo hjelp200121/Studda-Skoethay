@@ -13,26 +13,26 @@ public class Transform {
 	static int UPH = 9;
 	
 	public Vector position, scale;
-	float rotation;
+	public float rotation;
 	
-	/** Construct a transform attached to a gameObject with a position and scale. */
+	/** Construct a transform with a position and scale. */
 	public Transform(Vector position, Vector scale, float rotation) {
 		this.position = position;
 		this.scale = scale;
 		this.rotation = rotation;
 	}
 	
-	/** Construct a transform attached to a gameObject with default position and scale. */
+	/** Construct a transform with default position and scale. */
 	public Transform() {
 		this(Vector.zero(), Vector.one(), 0);
 	}
 	
-	// Return the position of the transform converted to screen points.
+	/** Return the position of the transform converted to screen points. */
 	public Vector toScreenPoint() {
 		return toScreenPoint(this.position);
 	}
 	
-	// Return the scale of the transform converted to screen scale.
+	/** Return the scale of the transform converted to screen scale. */
 	public Vector toScreenScale() {
 		return toScreenScale(this.scale);
 	}
@@ -41,7 +41,7 @@ public class Transform {
 	public void translate(Vector translation) {
 		position.add(translation);
 	}
-	
+		
 	public static Vector toScreenPoint(Vector worldPoint) {
 		Vector screenPoint = new Vector();
 		screenPoint.x = worldPoint.x * gm.width / UPW;
