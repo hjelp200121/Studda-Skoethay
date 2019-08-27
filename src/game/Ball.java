@@ -8,11 +8,11 @@ public class Ball {
 	
 	public Transform transform;
 	public Vector velocity;
-	public static float friction = 0.99f;
+	public static float friction = 0.5f;
 	public float angularVelocity;
 	static String ballPath = "data/cannonBall.png";
 	private PImage cannonBall;
-	static public Vector gravity = Vector.mul(Vector.down(), 1f/2000f*Transform.UPH);
+	static public Vector gravity = Vector.mul(Vector.down(), 10f);
 	
 	/** Constructor for a ball */
 	Ball(Vector pos, Vector scale, float angle, Vector vel, float angularVel) {
@@ -30,7 +30,7 @@ public class Ball {
 	void update() {
 		
 		//changing position and speed
-		velocity.mul(friction);
+		velocity.sub(Vector.div(Vector.mul(velocity, friction), (gm.frameRate)));
 		velocity.add(Vector.div(gravity, gm.frameRate));
 		
 		/*if (Math.abs(velocity.x) + Math.abs(velocity.y) < 0.1) {
@@ -39,7 +39,7 @@ public class Ball {
 		} */
 		
 		transform.position.add(Vector.div(velocity, gm.frameRate));
-		transform.rotation += angularVelocity;
+		transform.rotation += angularVelocity / gm.frameRate;
 		
 		/** wall bounds */
 		if (transform.position.x < 0 + AngleCollision()) {

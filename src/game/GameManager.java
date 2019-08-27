@@ -52,7 +52,7 @@ public class GameManager extends PApplet {
 		/* When the user presses 'space',
 		 * add a new ball to the stack. */
 		if (key == ' ') {
-			ammunition.push(new Ball(new Vector(1,Transform.UPH-1), new Vector(5f/2000f*16f,0), 0.2f));
+			ammunition.push(new Ball(new Vector(1,Transform.UPH-1), new Vector(16f,2f), 20f));
 		}
 	}
 }
