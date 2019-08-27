@@ -11,15 +11,22 @@ public class Ball {
 	public static float friction = 0.5f;
 	public float angularVelocity;
 	static String ballPath = "data/cannonBall.png";
+	static String ballPathAlt = "data/cannonBallAlt.png";
 	private PImage cannonBall;
 	static public Vector gravity = Vector.mul(Vector.down(), 10f);
+	private int randBall;
 	
 	/** Constructor for a ball */
 	Ball(Vector pos, Vector scale, float angle, Vector vel, float angularVel) {
 		transform = new Transform(pos, scale, angle);
 		velocity = vel;
 		angularVelocity = angularVel;
-		this.cannonBall = gm.loadImage(ballPath);
+		randBall = PApplet.floor(gm.random(10));
+		if (randBall == 0) {
+			this.cannonBall = gm.loadImage(ballPathAlt);
+		} else {
+			this.cannonBall = gm.loadImage(ballPath);
+		}
 	}
 	
 	/** Constructor for a ball */
