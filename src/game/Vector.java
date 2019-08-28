@@ -1,4 +1,7 @@
 package game;
+
+import processing.core.PApplet;
+
 public class Vector {
 	public float x, y;
 	
@@ -70,6 +73,22 @@ public class Vector {
 		return new Vector(v.x / d, v.y / d);
 	}
 	
+	public static Vector copy (Vector v) {
+		return new Vector(v.x, v.y);
+	}
+	
+	/**
+	 * Rotate the vector by 'd' radians.
+	 * @param v The vector to rotate
+	 * @param d The amount of radians to rotate
+	 * @return
+	 */
+	public static Vector rotate (Vector v, float d) {
+		float rx = PApplet.cos(-d) * v.x + PApplet.sin(-d) * v.y;
+		float ry = -PApplet.sin(-d) * v.x + PApplet.cos(-d) * v.y;
+		return new Vector(rx, ry);
+	}
+	
 	/** adding the value of the second vector to the first */
 	public void add (Vector v) {
 		x += v.x;
@@ -94,9 +113,10 @@ public class Vector {
 		y /= d;
 	}
 	
-	/** making a vector to be equal to another vector */
-	public void copy (Vector v) {
-		x = v.x;
-		y = v.y;
+	public void rotate (float d) {
+		float rx = PApplet.cos(-d) * x + PApplet.sin(-d) * y;
+		float ry = -PApplet.sin(-d) * x + PApplet.cos(-d) * y;
+		x = rx;
+		y = ry;
 	}
 }
