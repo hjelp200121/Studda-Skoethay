@@ -1,53 +1,64 @@
 package game;
+
 import java.util.Deque;
 
 import processing.core.PApplet;
 import processing.core.PImage;
 
 public class Cannon {
-	static final Vector barrelPivotOffset = new Vector(); // Find appropriate value
+	static final Vector barrelOffset = new Vector(.1f, .5f); // Find appropriate value
 	static GameManager gm = GameManager.gm;
 
 	static String basePath = "data/cannonBase.png";
 	static String barrelPath = "data/cannonBarrel.png";
-	static String stackPath = "data/cannonBallStack.png";
+	// static String stackPath = "data/cannonBallStack.png";
 
-	public Vector position;
+	public Transform transform;
 	Deque<Ball> ammunition;
-	public double angle, minAngle, maxAngle, rotationSpeed;
-	public double power;
+	public float angle, minAngle, maxAngle, rotationSpeed;
+	public float power;
 
 	private PImage cannonBase, cannonBarrel, ballStack;
-	/* The barrel pivot can also be used for the starting point when shooting balls. */
-	private Vector barrelPivot;
-	
-	public Cannon(Vector position, Deque<Ball> ammunition, double minAngle, double angle, double maxAngle,
-			double rotationSpeed, double power) {
-		this.position      = position;
-		this.ammunition    = ammunition;
-		this.angle         = angle;
-		this.minAngle      = minAngle;
-		this.maxAngle      = maxAngle;
+	/*
+	 * The barrel pivot can also be used for the starting point when shooting balls.
+	 */
+
+	public Cannon(Vector position, Vector scale, Deque<Ball> ammunition, float minAngle, float angle, float maxAngle,
+			float rotationSpeed, float power) {
+		this.transform = new Transform(position, scale, 0f);
+		this.ammunition = ammunition;
+		this.angle = angle;
+		this.minAngle = minAngle;
+		this.maxAngle = maxAngle;
 		this.rotationSpeed = rotationSpeed;
-		this.power         = power;
-		
-		this.cannonBase   = gm.loadImage(basePath);
+		this.power = power;
+
+		this.cannonBase = gm.loadImage(basePath);
 		this.cannonBarrel = gm.loadImage(barrelPath);
-		this.ballStack = gm.loadImage(stackPath);
-		this.barrelPivot  = Vector.add(position, barrelPivotOffset);
+		// this.ballStack = gm.loadImage(stackPath);
+
+		cannonBase.resize((int) (cannonBase.width * transform.scale.x * .5f),
+				(int) (cannonBase.height * transform.scale.y * .5f));
+		cannonBarrel.resize((int) (cannonBarrel.width * transform.scale.x * .5f),
+				(int) (cannonBarrel.height * transform.scale.y * .5f));
 	}
-	
+
 	public void show() {
 		gm.imageMode(PApplet.CENTER);
-		cannonBarrel.resize(160,0);
-		cannonBase.resize(70,0);
-		ballStack.resize(100,0);
-		gm.image(cannonBarrel,position.x,position.y - 30);
-		gm.image(cannonBase,position.x,position.y);
-		gm.image(ballStack,position.x - 80,position.y + 5);
+		gm.pushMatrix();
+		gm.translate(transform.toScreenPoint().x, transform.toScreenPoint().y);
+		gm.rotate(angle);
+		gm.translate(Transform.toScreenScale(barrelOffset).x * transform.scale.x,
+				Transform.toScreenScale(barrelOffset).y * transform.scale.y);
+		gm.image(cannonBarrel, 0, 0);
+		gm.translate(-Transform.toScreenScale(barrelOffset).x * transform.scale.x,
+				-Transform.toScreenScale(barrelOffset).y * transform.scale.y);
+		gm.rotate(-angle);
+		gm.image(cannonBase, 0, 0);
+		gm.popMatrix();
 	}
-	
+
 	public void shoot() {
-		
+
 	}
 }
