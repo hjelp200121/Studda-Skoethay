@@ -6,8 +6,10 @@ import processing.core.PApplet;
 import processing.core.PImage;
 
 public class Cannon {
-	static final Vector barrelOffset = new Vector(.1f, .5f); // Find appropriate value
+	/* Universal barrel offset before scaling */
+	private static Vector _barrelOffset = new Vector(.1f, .5f);
 	static GameManager gm = GameManager.gm;
+	static float basisAngle = PApplet.HALF_PI / 2f;
 
 	static String basePath = "data/cannonBase.png";
 	static String barrelPath = "data/cannonBarrel.png";
@@ -17,6 +19,7 @@ public class Cannon {
 	Deque<Ball> ammunition;
 	public float angle, minAngle, maxAngle, rotationSpeed;
 	public float power;
+	public Vector barrelOffset;
 
 	private PImage cannonBase, cannonBarrel, ballStack;
 	/*
@@ -32,6 +35,7 @@ public class Cannon {
 		this.maxAngle = maxAngle;
 		this.rotationSpeed = rotationSpeed;
 		this.power = power;
+		this.barrelOffset = new Vector(_barrelOffset.x * scale.x, _barrelOffset.y * scale.y);
 
 		this.cannonBase = gm.loadImage(basePath);
 		this.cannonBarrel = gm.loadImage(barrelPath);
@@ -43,16 +47,38 @@ public class Cannon {
 				(int) (cannonBarrel.height * transform.scale.y * .5f));
 	}
 
+	/**
+	 * Rotate the cannon at its speed, unless it would exceed the minimal or maximal
+	 * angle.
+	 * 
+	 * @param ccw Should the cannon rotate counter clock wise? If false, rotates
+	 *            clock wise.
+	 */
+	public void rotate(boolean ccw) {
+		float deltaAngle = rotationSpeed / gm.frameRate;
+		/* This should be !ccw, but this works. */
+		if (ccw) {
+			deltaAngle *= -1;
+		}
+		angle += deltaAngle;
+		if (angle < minAngle) {
+			angle = minAngle;
+		} else if (angle > maxAngle) {
+			angle = maxAngle;
+		}
+		System.out.println(angle);
+	}
+
 	public void show() {
 		gm.imageMode(PApplet.CENTER);
 		gm.pushMatrix();
 		gm.translate(transform.toScreenPoint().x, transform.toScreenPoint().y);
 		gm.rotate(angle);
-		gm.translate(Transform.toScreenScale(barrelOffset).x * transform.scale.x,
-				Transform.toScreenScale(barrelOffset).y * transform.scale.y);
+		gm.translate(Transform.toScreenScale(barrelOffset).x,
+				Transform.toScreenScale(barrelOffset).y);
 		gm.image(cannonBarrel, 0, 0);
-		gm.translate(-Transform.toScreenScale(barrelOffset).x * transform.scale.x,
-				-Transform.toScreenScale(barrelOffset).y * transform.scale.y);
+		gm.translate(-Transform.toScreenScale(barrelOffset).x,
+				-Transform.toScreenScale(barrelOffset).y);
 		gm.rotate(-angle);
 		gm.image(cannonBase, 0, 0);
 		gm.popMatrix();
