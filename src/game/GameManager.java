@@ -9,6 +9,10 @@ import processing.core.PApplet;
 
 public class GameManager extends PApplet {
 
+	static final int AMMO_STACK_HEIGHT = 4;
+	static final Vector AMMO_STACK_POS = new Vector(2f, 3f);
+	static final Vector AMMO_SIZE = new Vector(.5f, .5f);
+
 	// Static singleton instance.
 	static GameManager gm = null;
 
@@ -39,6 +43,7 @@ public class GameManager extends PApplet {
 		/* Initialise the cannon. */
 		cannon = new Cannon(new Vector(3f, 3f), new Vector(1f, 1f), ammunition, -PI / 5, 0, PI / 5, PI / 4, 10);
 		/* Load ammunition into the stack. */
+		refillAmmunition();
 	}
 
 	/** drawing everything */
@@ -58,6 +63,30 @@ public class GameManager extends PApplet {
 		cannon.show();
 	}
 
+	public void refillAmmunition() {
+		int stack = AMMO_STACK_HEIGHT;
+		int skip = ammunition.size();
+
+		float y = AMMO_STACK_POS.y;
+		while (stack > 0) {
+			float x = AMMO_STACK_POS.x - stack / 2f * AMMO_SIZE.x;
+			for (int i = 0; i < stack; i++) {
+				if (skip == 0) {
+					Vector pos = new Vector(x, y);
+					Vector scale = new Vector(AMMO_SIZE);
+					Ball ball = new Ball(pos, scale, Vector.zero(), 0f);
+					ball.kinematic = false;
+					ammunition.add(ball);
+				} else {
+					skip--;
+				}
+				x += AMMO_SIZE.x * 0.9f; // ???
+			}
+			y += AMMO_SIZE.y * 0.9f; // ?????
+			stack--;
+		}
+	}
+
 	public void keyPressed() {
 		if (key == CODED) {
 			if (keyCode == UP) {
@@ -66,7 +95,7 @@ public class GameManager extends PApplet {
 				pressingDown = true;
 			}
 		} else {
-			
+
 			if (key == 'w' || key == 'W') {
 				pressingUp = true;
 			} else if (key == 's' || key == 'S') {
@@ -80,8 +109,7 @@ public class GameManager extends PApplet {
 				pos.add(cannon.transform.position);
 				Vector rot = new Vector(10f, 0f);
 				rot.rotate(Cannon.basisAngle - cannon.angle + PI / 36f);
-				ammunition.push(
-						new Ball(pos, new Vector(0.5f, 0.5f), rot, random(40f) - 20f));
+				ammunition.push(new Ball(pos, new Vector(0.5f, 0.5f), rot, random(40f) - 20f));
 			}
 		}
 	}

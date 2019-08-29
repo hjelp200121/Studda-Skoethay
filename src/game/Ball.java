@@ -16,6 +16,8 @@ public class Ball {
 	static public Vector gravity = Vector.mul(Vector.down(), 10f);
 	private int randBall;
 
+	public boolean kinematic = true;
+
 	/** Constructor for a ball */
 	Ball(Vector pos, Vector scale, Vector vel, float angularVel) {
 		transform = new Transform(pos, scale, 0f);
@@ -39,38 +41,40 @@ public class Ball {
 
 	void update() {
 
-		// changing position and speed
-		velocity.sub(Vector.div(Vector.mul(velocity, friction), (gm.frameRate)));
-		velocity.add(Vector.div(gravity, gm.frameRate));
+		if (kinematic) {
+			// changing position and speed
+			velocity.sub(Vector.div(Vector.mul(velocity, friction), (gm.frameRate)));
+			velocity.add(Vector.div(gravity, gm.frameRate));
 
-		if (Math.abs(velocity.x) + Math.abs(velocity.y) < 0.01) {
-			velocity.mul(0);
-			angularVelocity = 0;
-		}
+			if (Math.abs(velocity.x) + Math.abs(velocity.y) < 0.01) {
+				velocity.mul(0);
+				angularVelocity = 0;
+			}
 
-		transform.position.add(Vector.div(velocity, gm.frameRate));
-		transform.rotation += angularVelocity / gm.frameRate;
+			transform.position.add(Vector.div(velocity, gm.frameRate));
+			transform.rotation += angularVelocity / gm.frameRate;
 
-		/** wall bounds */
-		if (transform.position.x < 0 + AngleCollision()) {
-			velocity.x *= -1;
-			transform.position.x = 0 + AngleCollision();
-			doCollision();
-		}
-		if (transform.position.x > Transform.UPW - AngleCollision()) {
-			velocity.x *= -1;
-			transform.position.x = Transform.UPW - AngleCollision();
-			doCollision();
-		}
-		if (transform.position.y < 0 + AngleCollision()) {
-			velocity.y *= -1;
-			transform.position.y = 0 + AngleCollision();
-			doCollision();
-		}
-		if (transform.position.y > Transform.UPH - AngleCollision()) {
-			velocity.y *= -1;
-			transform.position.y = Transform.UPH - AngleCollision();
-			doCollision();
+			/** wall bounds */
+			if (transform.position.x < 0 + AngleCollision()) {
+				velocity.x *= -1;
+				transform.position.x = 0 + AngleCollision();
+				doCollision();
+			}
+			if (transform.position.x > Transform.UPW - AngleCollision()) {
+				velocity.x *= -1;
+				transform.position.x = Transform.UPW - AngleCollision();
+				doCollision();
+			}
+			if (transform.position.y < 0 + AngleCollision()) {
+				velocity.y *= -1;
+				transform.position.y = 0 + AngleCollision();
+				doCollision();
+			}
+			if (transform.position.y > Transform.UPH - AngleCollision()) {
+				velocity.y *= -1;
+				transform.position.y = Transform.UPH - AngleCollision();
+				doCollision();
+			}
 		}
 
 		// Drawing the ball and rotation
