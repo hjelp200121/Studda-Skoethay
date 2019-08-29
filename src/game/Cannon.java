@@ -66,7 +66,6 @@ public class Cannon {
 		} else if (angle > maxAngle) {
 			angle = maxAngle;
 		}
-		System.out.println(angle);
 	}
 
 	public void show() {

@@ -9,8 +9,10 @@ import processing.core.PApplet;
 
 public class GameManager extends PApplet {
 
+	public static final float groundHeight = 1f;
+	
 	static final int AMMO_STACK_HEIGHT = 4;
-	static final Vector AMMO_STACK_POS = new Vector(2f, 3f);
+	static final Vector AMMO_STACK_POS = new Vector(1.5f, groundHeight);
 	static final Vector AMMO_SIZE = new Vector(.5f, .5f);
 
 	// Static singleton instance.
@@ -20,6 +22,7 @@ public class GameManager extends PApplet {
 	Deque<Ball> ammunition;
 	List<Ball> balls;
 	Cannon cannon;
+	public Terrain terrain;
 
 	boolean pressingUp = false;
 	boolean pressingDown = false;
@@ -40,8 +43,10 @@ public class GameManager extends PApplet {
 		frameRate(60);
 		smooth();
 		background(255);
+		/* Initialise terrain. */
+		terrain = new Terrain(groundHeight);
 		/* Initialise the cannon. */
-		cannon = new Cannon(new Vector(3f, 3f), new Vector(1f, 1f), ammunition, -PI / 5, 0, PI / 5, PI / 4, 10);
+		cannon = new Cannon(new Vector(2.5f, groundHeight + 0.7f), new Vector(1f, 1f), ammunition, -PI / 5, 0, PI / 5, PI / 4, 10);
 		/* Load ammunition into the stack. */
 		refillAmmunition();
 	}
@@ -56,9 +61,12 @@ public class GameManager extends PApplet {
 		}
 
 		background(255);
+		/* Draw the terrain */
+		terrain.show();
 		/* Draw the cannon and balls. */
 		for (Ball b : ammunition) {
 			b.update();
+			
 		}
 		cannon.show();
 	}
@@ -67,7 +75,7 @@ public class GameManager extends PApplet {
 		int stack = AMMO_STACK_HEIGHT;
 		int skip = ammunition.size();
 
-		float y = AMMO_STACK_POS.y;
+		float y = AMMO_STACK_POS.y + AMMO_SIZE.y / 2f * 0.9f; // ??
 		while (stack > 0) {
 			float x = AMMO_STACK_POS.x - stack / 2f * AMMO_SIZE.x;
 			for (int i = 0; i < stack; i++) {
