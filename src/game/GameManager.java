@@ -46,7 +46,7 @@ public class GameManager extends PApplet {
 		/* Initialise terrain. */
 		terrain = new Terrain(groundHeight);
 		/* Initialise the cannon. */
-		cannon = new Cannon(new Vector(2.5f, groundHeight + 0.7f), new Vector(1f, 1f), ammunition, -PI / 5, 0, PI / 5,
+		cannon = new Cannon(new Vector(2.5f, groundHeight + 0.5f), new Vector(1f, 1f), ammunition, -PI / 5, 0, PI / 5,
 				PI / 4, 15f);
 		/* Load ammunition into the stack. */
 		refillAmmunition();
