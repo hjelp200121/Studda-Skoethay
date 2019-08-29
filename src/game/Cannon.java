@@ -3,6 +3,7 @@ package game;
 import java.util.Deque;
 
 import processing.core.PApplet;
+import processing.core.PConstants;
 import processing.core.PImage;
 
 public class Cannon {
@@ -84,6 +85,26 @@ public class Cannon {
 	}
 
 	public void shoot() {
+		if (ammunition.size() > 0) {
+			Ball ball = ammunition.pop();
+			/* Correctly position the ball inside the barrel. */
+			Vector pos = new Vector(barrelOffset);
+			pos.rotate(-angle);
+			pos.add(transform.position);
+			/* Calculate the force vector. */
+			Vector force = new Vector(1f, 0f);
+			// Add a little extra angle to compensate for gravity
+			force.rotate(Cannon.basisAngle - angle + PConstants.PI / 36f); 
+			force.mul(power);
+			/* Assign a random rotation to the ball. */
+			float angularVel = gm.random(20f) - 10f;
+			
+			ball.transform.position = pos;
+			ball.velocity.add(force);
+			ball.angularVelocity = angularVel;
 
+			/* Add the ball to the list of balls in the scene. */
+			gm.balls.add(ball);
+		}
 	}
 }

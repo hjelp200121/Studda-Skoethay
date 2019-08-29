@@ -10,7 +10,7 @@ import processing.core.PApplet;
 public class GameManager extends PApplet {
 
 	public static final float groundHeight = 1f;
-	
+
 	static final int AMMO_STACK_HEIGHT = 4;
 	static final Vector AMMO_STACK_POS = new Vector(1.5f, groundHeight);
 	static final Vector AMMO_SIZE = new Vector(.5f, .5f);
@@ -20,7 +20,7 @@ public class GameManager extends PApplet {
 
 	/* The C&Bs */
 	Deque<Ball> ammunition;
-	List<Ball> balls;
+	public List<Ball> balls;
 	Cannon cannon;
 	public Terrain terrain;
 
@@ -46,7 +46,8 @@ public class GameManager extends PApplet {
 		/* Initialise terrain. */
 		terrain = new Terrain(groundHeight);
 		/* Initialise the cannon. */
-		cannon = new Cannon(new Vector(2.5f, groundHeight + 0.7f), new Vector(1f, 1f), ammunition, -PI / 5, 0, PI / 5, PI / 4, 10);
+		cannon = new Cannon(new Vector(2.5f, groundHeight + 0.7f), new Vector(1f, 1f), ammunition, -PI / 5, 0, PI / 5,
+				PI / 4, 15f);
 		/* Load ammunition into the stack. */
 		refillAmmunition();
 	}
@@ -63,18 +64,24 @@ public class GameManager extends PApplet {
 		background(255);
 		/* Draw the terrain */
 		terrain.show();
-		/* Draw the cannon and balls. */
+		/* Draw the ammunition pile. */
 		for (Ball b : ammunition) {
-			b.update();
-			
+			b.draw();
+
 		}
+		/* Draw the active balls. */
+		for (Ball b : balls) {
+			b.update();
+
+		}
+		/* Draw the cannon. */
 		cannon.show();
 	}
 
 	public void refillAmmunition() {
 		/* Prevent scaling from causing 1 pixel-wide gaps. */
 		float margin = 0.95f;
-		
+
 		int stack = AMMO_STACK_HEIGHT;
 		int skip = ammunition.size();
 
@@ -86,8 +93,7 @@ public class GameManager extends PApplet {
 					Vector pos = new Vector(x, y);
 					Vector scale = new Vector(AMMO_SIZE);
 					Ball ball = new Ball(pos, scale, Vector.zero(), 0f);
-					ball.kinematic = false;
-					ammunition.add(ball);
+					gm.ammunition.push(ball);
 				} else {
 					skip--;
 				}
@@ -115,12 +121,7 @@ public class GameManager extends PApplet {
 				/*
 				 * When the user presses 'space', add a new ball to the stack.
 				 */
-				Vector pos = Vector.copy(cannon.barrelOffset);
-				pos.rotate(-cannon.angle);
-				pos.add(cannon.transform.position);
-				Vector rot = new Vector(10f, 0f);
-				rot.rotate(Cannon.basisAngle - cannon.angle + PI / 36f);
-				ammunition.push(new Ball(pos, new Vector(0.5f, 0.5f), rot, random(40f) - 20f));
+				cannon.shoot();
 			}
 		}
 	}
