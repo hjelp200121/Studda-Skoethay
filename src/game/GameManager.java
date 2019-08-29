@@ -65,18 +65,24 @@ public class GameManager extends PApplet {
 			} else if (keyCode == DOWN) {
 				pressingDown = true;
 			}
-		}
-		/*
-		 * When the user presses 'space', add a new ball to the stack.
-		 */
-		if (key == ' ') {
-			Vector pos = Vector.copy(cannon.barrelOffset);
-			pos.rotate(-cannon.angle);
-			pos.add(cannon.transform.position);
-			Vector rot = new Vector(10f, 0f);
-			rot.rotate(Cannon.basisAngle - cannon.angle + PI / 36f);
-			ammunition.push(
-					new Ball(pos, new Vector(0.5f, 0.5f), rot, random(40f) - 20f));
+		} else {
+			
+			if (key == 'w' || key == 'W') {
+				pressingUp = true;
+			} else if (key == 's' || key == 'S') {
+				pressingDown = true;
+			} else if (key == ' ') {
+				/*
+				 * When the user presses 'space', add a new ball to the stack.
+				 */
+				Vector pos = Vector.copy(cannon.barrelOffset);
+				pos.rotate(-cannon.angle);
+				pos.add(cannon.transform.position);
+				Vector rot = new Vector(10f, 0f);
+				rot.rotate(Cannon.basisAngle - cannon.angle + PI / 36f);
+				ammunition.push(
+						new Ball(pos, new Vector(0.5f, 0.5f), rot, random(40f) - 20f));
+			}
 		}
 	}
 
@@ -85,6 +91,12 @@ public class GameManager extends PApplet {
 			if (keyCode == UP) {
 				pressingUp = false;
 			} else if (keyCode == DOWN) {
+				pressingDown = false;
+			}
+		} else {
+			if (key == 'w' || key == 'W') {
+				pressingUp = false;
+			} else if (key == 's' || key == 'S') {
 				pressingDown = false;
 			}
 		}
