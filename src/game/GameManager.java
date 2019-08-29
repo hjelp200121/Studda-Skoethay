@@ -43,6 +43,7 @@ public class GameManager extends PApplet {
 
 	/** basic settings */
 	public void setup() {
+		frame.setTitle("Studda Skøthay");
 		frameRate(60);
 		smooth();
 		background(255);
