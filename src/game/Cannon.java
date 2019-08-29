@@ -41,10 +41,10 @@ public class Cannon {
 		this.cannonBarrel = gm.loadImage(barrelPath);
 		// this.ballStack = gm.loadImage(stackPath);
 
-		cannonBase.resize((int) (cannonBase.width * transform.scale.x * .5f),
-				(int) (cannonBase.height * transform.scale.y * .5f));
-		cannonBarrel.resize((int) (cannonBarrel.width * transform.scale.x * .5f),
-				(int) (cannonBarrel.height * transform.scale.y * .5f));
+		cannonBarrel.resize((int) (gm.width / Transform.UPW * transform.scale.x * 2f),
+				(int) (gm.height / Transform.UPH * transform.scale.y * 2f));
+		cannonBase.resize((int) (gm.width / Transform.UPW * transform.scale.x),
+				(int) (gm.height / Transform.UPH * transform.scale.y));
 	}
 
 	/**

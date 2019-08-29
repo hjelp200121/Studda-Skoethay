@@ -30,8 +30,8 @@ public class Ball {
 			this.cannonBall = gm.loadImage(ballPath);
 		}
 
-		cannonBall.resize((int) (cannonBall.width * transform.scale.x * .5f),
-				(int) (cannonBall.height * transform.scale.y * .5f));
+		cannonBall.resize((int) (gm.width / Transform.UPW * transform.scale.x),
+				(int) (gm.height / Transform.UPH * transform.scale.y));
 	}
 
 	/** Constructor for a ball */

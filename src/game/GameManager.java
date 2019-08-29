@@ -72,10 +72,13 @@ public class GameManager extends PApplet {
 	}
 
 	public void refillAmmunition() {
+		/* Prevent scaling from causing 1 pixel-wide gaps. */
+		float margin = 0.95f;
+		
 		int stack = AMMO_STACK_HEIGHT;
 		int skip = ammunition.size();
 
-		float y = AMMO_STACK_POS.y + AMMO_SIZE.y / 2f * 0.9f; // ??
+		float y = AMMO_STACK_POS.y + AMMO_SIZE.y / 2f * margin;
 		while (stack > 0) {
 			float x = AMMO_STACK_POS.x - stack / 2f * AMMO_SIZE.x;
 			for (int i = 0; i < stack; i++) {
@@ -88,9 +91,9 @@ public class GameManager extends PApplet {
 				} else {
 					skip--;
 				}
-				x += AMMO_SIZE.x * 0.9f; // ???
+				x += AMMO_SIZE.x * margin;
 			}
-			y += AMMO_SIZE.y * 0.9f; // ?????
+			y += AMMO_SIZE.y * margin;
 			stack--;
 		}
 	}
