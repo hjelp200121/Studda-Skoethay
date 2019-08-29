@@ -9,8 +9,10 @@ import processing.core.PApplet;
 
 public class GameManager extends PApplet {
 
+	/* The height of the terain. */
 	public static final float groundHeight = 1f;
 
+	/* Constants for the ammunition stack, and individual balls. */
 	static final int AMMO_STACK_HEIGHT = 4;
 	static final Vector AMMO_STACK_POS = new Vector(1.5f, groundHeight);
 	static final Vector AMMO_SIZE = new Vector(.5f, .5f);
@@ -24,6 +26,7 @@ public class GameManager extends PApplet {
 	Cannon cannon;
 	public Terrain terrain;
 
+	/* User input state. */
 	boolean pressingUp = false;
 	boolean pressingDown = false;
 
@@ -55,6 +58,7 @@ public class GameManager extends PApplet {
 	/** drawing everything */
 	public void draw() {
 
+		/* Handle user input. */
 		if (pressingUp && !pressingDown) {
 			cannon.rotate(true);
 		} else if (pressingDown && !pressingUp) {
@@ -75,9 +79,10 @@ public class GameManager extends PApplet {
 
 		}
 		/* Draw the cannon. */
-		cannon.show();
+		cannon.update();
 	}
 
+	/** Instantly refill the stack of ammunition. */
 	public void refillAmmunition() {
 		/* Prevent scaling from causing 1 pixel-wide gaps. */
 		float margin = 0.95f;

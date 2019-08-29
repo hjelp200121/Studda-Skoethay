@@ -37,6 +37,9 @@ public class Ball {
 		this(pos, Vector.one(), vel, angularVel);
 	}
 
+	/**
+	 * Update the physics of the ball, and then draw it unto the screen.
+	 */
 	void update() {
 
 		// changing position and speed
@@ -51,7 +54,7 @@ public class Ball {
 		transform.position.add(Vector.div(velocity, gm.frameRate));
 		transform.rotation += angularVelocity / gm.frameRate;
 
-		/** wall bounds */
+		/* Check for wall bounds and bounce off of them. */
 		if (transform.position.x < 0 + AngleCollision()) {
 			velocity.x *= -1;
 			transform.position.x = 0 + AngleCollision();
@@ -76,6 +79,9 @@ public class Ball {
 		draw();
 	}
 
+	/**
+	 * Draw the ball unto the screen.
+	 */
 	public void draw() {
 		gm.imageMode(PApplet.CENTER);
 		gm.pushMatrix();

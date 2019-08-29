@@ -7,9 +7,9 @@ package game;
 public class Transform {
 	public static GameManager gm = GameManager.gm;
 	
-	// Units per width.
+	/** Units per width. */
 	static int UPW = 16;
-	// Units per height.
+	/** Units per height. */
 	static int UPH = 9;
 	
 	public Vector position, scale;
