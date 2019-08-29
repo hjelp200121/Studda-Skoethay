@@ -16,6 +16,7 @@ public class GameManager extends PApplet {
 	Deque<Ball> ammunition;
 	List<Ball> balls;
 	Cannon cannon;
+	public Terrain terrain;
 
 	boolean pressingUp = false;
 	boolean pressingDown = false;
@@ -36,8 +37,10 @@ public class GameManager extends PApplet {
 		frameRate(60);
 		smooth();
 		background(255);
+		/* Initialise terrain. */
+		terrain = new Terrain(1);
 		/* Initialise the cannon. */
-		cannon = new Cannon(new Vector(3f, 3f), new Vector(1f, 1f), ammunition, -PI / 5, 0, PI / 5, PI / 4, 10);
+		cannon = new Cannon(new Vector(2.5f, terrain.groundHeight + 0.7f), new Vector(1f, 1f), ammunition, -PI / 5, 0, PI / 5, PI / 4, 10);
 		/* Load ammunition into the stack. */
 	}
 
@@ -51,9 +54,12 @@ public class GameManager extends PApplet {
 		}
 
 		background(255);
+		/* Draw the terrain */
+		terrain.show();
 		/* Draw the cannon and balls. */
 		for (Ball b : ammunition) {
 			b.update();
+			
 		}
 		cannon.show();
 	}

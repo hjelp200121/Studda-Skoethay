@@ -21,7 +21,7 @@ public class Ball {
 		transform = new Transform(pos, scale, 0f);
 		velocity = vel;
 		angularVelocity = angularVel;
-		randBall = PApplet.floor(gm.random(10));
+		randBall = PApplet.floor(gm.random(100));
 		if (randBall == 0) {
 			this.cannonBall = gm.loadImage(ballPathAlt);
 		} else {
@@ -62,9 +62,9 @@ public class Ball {
 			transform.position.x = Transform.UPW - AngleCollision();
 			doCollision();
 		}
-		if (transform.position.y < 0 + AngleCollision()) {
+		if (transform.position.y < gm.terrain.groundHeight + AngleCollision()) {
 			velocity.y *= -1;
-			transform.position.y = 0 + AngleCollision();
+			transform.position.y = gm.terrain.groundHeight + AngleCollision();
 			doCollision();
 		}
 		if (transform.position.y > Transform.UPH - AngleCollision()) {
