@@ -22,7 +22,7 @@ public class Cannon {
 	public float power;
 	public Vector barrelOffset;
 
-	private PImage cannonBase, cannonBarrel, ballStack;
+	private PImage cannonBase, cannonBarrel;
 	/*
 	 * The barrel pivot can also be used for the starting point when shooting balls.
 	 */
