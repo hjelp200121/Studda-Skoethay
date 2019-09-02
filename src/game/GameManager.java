@@ -48,7 +48,7 @@ public class GameManager extends PApplet {
 		smooth();
 		background(255);
 		/* Initialise terrain. */
-		terrain = new Terrain(groundHeight);
+		terrain = new Terrain(groundHeight, new Color(0xff9b7653));
 		/* Initialise the cannon. */
 		cannon = new Cannon(new Vector(2.5f, groundHeight + 0.5f), new Vector(1f, 1f), ammunition, -PI / 5, 0, PI / 5,
 				PI / 4, 15f);
