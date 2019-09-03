@@ -50,6 +50,15 @@ public class GameManager extends PApplet {
 
 	/** size and initialisation */
 	public void settings() {
+		/* Process command line arguments. */
+		for (String arg : args) {
+			System.out.println(arg);
+			if (arg.equals("--skip-emil")) {
+				introScreen = false;
+				fadeIn = 0;
+			}
+		}
+		
 		System.out.println("Starting application...");
 		/* Set the static singleton instance. */
 		gm = this;
@@ -151,7 +160,7 @@ public class GameManager extends PApplet {
 		}
 		
 		/* Draw the fade in */
-		if (fadeIn > -5) {
+		if (fadeIn > 0) {
 			fill(255,255,255,fadeIn);
 			gm.rectMode(PApplet.CORNER);
 			rect(0,0,width,height);
