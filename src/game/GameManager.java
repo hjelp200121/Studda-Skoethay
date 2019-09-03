@@ -17,6 +17,9 @@ public class GameManager extends PApplet {
 	static final Vector AMMO_STACK_POS = new Vector(1.5f, groundHeight);
 	static final Vector AMMO_SIZE = new Vector(.5f, .5f);
 
+	/* constant for target size */
+	static final Vector targetSize = new Vector(1.5f,1.5f);
+	
 	// Static singleton instance.
 	static GameManager gm = null;
 
@@ -25,6 +28,7 @@ public class GameManager extends PApplet {
 	public List<Ball> balls;
 	Cannon cannon;
 	public Terrain terrain;
+	public List<Target> targets;
 
 	/* User input state. */
 	boolean pressingUp = false;
@@ -39,6 +43,7 @@ public class GameManager extends PApplet {
 		/* Initialise the stack of ammunition. */
 		ammunition = new ArrayDeque<Ball>();
 		balls = new ArrayList<Ball>();
+		targets = new ArrayList<Target>();
 	}
 
 	/** basic settings */
@@ -49,9 +54,12 @@ public class GameManager extends PApplet {
 		background(255);
 		/* Initialise terrain. */
 		terrain = new Terrain(groundHeight, new Color(0xff9b7653));
-		/* Initialise the cannon. */
+		/* Initialise the cannon and targets */
 		cannon = new Cannon(new Vector(2.5f, groundHeight + 0.5f), new Vector(1f, 1f), ammunition, -PI / 5, 0, PI / 5,
 				PI / 4, 15f);
+		targets.add(new Target(new Vector(random(5f,15f),random(2f,8f)),new Vector(targetSize)));
+		targets.add(new Target(new Vector(random(5f,15f),random(2f,8f)),new Vector(targetSize)));
+		targets.add(new Target(new Vector(random(5f,15f),random(2f,8f)),new Vector(targetSize)));
 		/* Load ammunition into the stack. */
 		refillAmmunition();
 	}
@@ -79,6 +87,11 @@ public class GameManager extends PApplet {
 			b.update();
 
 		}
+		/* Draw the targets */
+		for (Target t : targets) {
+			t.update();
+		}
+		
 		/* Draw the cannon. */
 		cannon.update();
 	}
