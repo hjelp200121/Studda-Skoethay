@@ -1,7 +1,6 @@
 package game;
 
 import processing.core.PApplet;
-import processing.core.PConstants;
 import processing.core.PImage;
 
 /* Create class for the terrain of the game */
