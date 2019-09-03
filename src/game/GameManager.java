@@ -6,6 +6,7 @@ import java.util.Deque;
 import java.util.List;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 
 public class GameManager extends PApplet {
 
@@ -35,6 +36,16 @@ public class GameManager extends PApplet {
 	boolean pressingUp = false;
 	boolean pressingDown = false;
 	boolean pressingSpace = false;
+	
+	/*Variables to do with the intro*/
+	boolean introScreen = true, emilShown = false;
+	static String emilPath = "data/emilLogo.png";
+	private PImage emilLogo;
+	float emilTimer;
+	int emilColor;
+	
+	/* Miscellaneous variables*/
+	int fadeIn = 280;
 
 	/** size and initialisation */
 	public void settings() {
@@ -65,11 +76,38 @@ public class GameManager extends PApplet {
 		targets.add(new Target(new Vector(random(5f,15f),random(2f,8f)),new Vector(targetSize)));
 		/* Load ammunition into the stack. */
 		refillAmmunition();
+		/* Initialise emil */
+		emilLogo = gm.loadImage(emilPath);
+		emilLogo.resize(floor(gm.height*0.5f),floor(gm.height*0.5f));
+		emilTimer = gm.frameRate*3;
+		emilColor = 256;
 	}
 
-	/** drawing everything */
+	/*Draws intro with logo and moves on to the game*/
 	public void draw() {
-
+		if (introScreen) {
+			fill(255,255,255,emilColor);
+			gm.imageMode(PApplet.CENTER);
+			gm.image(emilLogo,width/2,height/2);
+			rect(0,0,width,height);
+			emilTimer --;
+			if (emilColor > -10 && !emilShown) {
+				emilColor -= 2;
+			} else {
+				emilShown = true;
+				emilColor +=6;
+			}
+			if (emilTimer < 0) {
+				introScreen = false;
+			}
+		} else {
+			tick();
+		}
+	}
+	
+	/** drawing everything */
+	public void tick() {
+		
 		/* Handle user input. */
 		if (pressingUp && !pressingDown) {
 			cannon.rotate(true);
@@ -103,6 +141,14 @@ public class GameManager extends PApplet {
 
 		/* Draw the charge bar */
 		bar.draw();
+		
+		/* Draw the fade in */
+		if (fadeIn > -5) {
+			fill(255,255,255,fadeIn);
+			gm.rectMode(PApplet.CORNER);
+			rect(0,0,width,height);
+			fadeIn -= 3;
+		}
 	}
 
 	/** Instantly refill the stack of ammunition. */
@@ -120,7 +166,7 @@ public class GameManager extends PApplet {
 				if (skip == 0) {
 					Vector pos = new Vector(x, y);
 					Vector scale = new Vector(AMMO_SIZE);
-					Ball ball = new Ball(pos, scale, Vector.zero(), 0f);
+					Ball ball = new Ball(pos, scale, Vector.zero(), 0f, targets);
 					gm.ammunition.push(ball);
 				} else {
 					skip--;
