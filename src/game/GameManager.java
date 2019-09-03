@@ -27,6 +27,7 @@ public class GameManager extends PApplet {
 	/* The C&Bs */
 	Deque<Ball> ammunition;
 	public List<Ball> balls;
+	public Deque<Ball> ballsToRemove;
 	Cannon cannon;
 	public Terrain terrain;
 	public ChargeBar bar;
@@ -56,6 +57,7 @@ public class GameManager extends PApplet {
 		/* Initialise the stack of ammunition. */
 		ammunition = new ArrayDeque<Ball>();
 		balls = new ArrayList<Ball>();
+		ballsToRemove = new ArrayDeque<Ball>();
 		targets = new ArrayList<Target>();
 	}
 
@@ -107,6 +109,10 @@ public class GameManager extends PApplet {
 	
 	/** drawing everything */
 	public void tick() {
+		
+		while (ballsToRemove.size() > 0) {
+			balls.remove(ballsToRemove.poll());
+		}
 		
 		/* Handle user input. */
 		if (pressingUp && !pressingDown) {

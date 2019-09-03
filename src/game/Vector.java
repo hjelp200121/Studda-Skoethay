@@ -77,6 +77,10 @@ public class Vector {
 		return new Vector(v.x, v.y);
 	}
 	
+	public static float dist (Vector v1, Vector v2) {
+		return (float) Math.sqrt((v1.x - v2.x)*(v1.x - v2.x) + (v1.y - v2.y)*(v1.y - v2.y));
+	}
+	
 	/**
 	 * Rotate the vector by 'd' radians.
 	 * @param v The vector to rotate

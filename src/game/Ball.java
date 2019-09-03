@@ -110,14 +110,18 @@ public class Ball {
 	
 	/** destroys the target when it is hit */
 	public void targetCollision() {
-		for (Target t: targets) {
-			if(transform.position.x + AngleCollision() < t.transform.position.x + t.transform.scale.x &&
-					transform.position.x - AngleCollision() > t.transform.position.x - t.transform.scale.x &&
-					transform.position.y + AngleCollision() < t.transform.position.y + t.transform.scale.y &&
-					transform.position.y - AngleCollision() > t.transform.position.y - t.transform.scale.y) {
-
-				//do something
+		int i;
+		boolean hit = false;
+		for (i = 0; i < targets.size(); i++) {
+			Target t = targets.get(i);
+			if(Vector.dist(transform.position, t.transform.position ) < AngleCollision() + t.transform.scale.x/2) {
+				hit = true;
+				break;
 			}
+		}
+		if (hit) {
+			targets.remove(i);
+			gm.ballsToRemove.add(this);
 		}
 	}
 

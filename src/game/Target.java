@@ -37,5 +37,4 @@ public class Target {
 		gm.image(target, 0, 0);
 		gm.popMatrix();
 	}
-	
 }
