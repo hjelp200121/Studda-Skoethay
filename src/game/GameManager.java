@@ -114,9 +114,6 @@ public class GameManager extends PApplet {
 		} else if (pressingDown && !pressingUp) {
 			cannon.rotate(false);
 		}
-		if (pressingSpace) {
-			bar.charge();
-		}
 
 		background(255);
 		/* Draw the terrain */
@@ -139,8 +136,13 @@ public class GameManager extends PApplet {
 		/* Draw the cannon. */
 		cannon.update();
 
-		/* Draw the charge bar */
+		/* Draw & charge the charge bar */
+		if (!ammunition.isEmpty()) {
+			if (pressingSpace) {
+				bar.charge();
+			}
 		bar.draw();
+		}
 		
 		/* Draw the fade in */
 		if (fadeIn > -5) {
