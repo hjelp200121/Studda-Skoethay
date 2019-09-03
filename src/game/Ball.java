@@ -16,6 +16,7 @@ public class Ball {
 	static public Vector gravity = Vector.mul(Vector.down(), 10f);
 	private int randBall;
 	public float bounceFriction = -0.25f;
+	boolean touchingGround = false;
 
 	/** Constructor for a ball */
 	Ball(Vector pos, Vector scale, Vector vel, float angularVel) {
@@ -44,13 +45,12 @@ public class Ball {
 	void update() {
 
 		// changing position and speed
+		
+		
 		velocity.sub(Vector.div(Vector.mul(velocity, airResistance), (gm.frameRate)));
 		velocity.add(Vector.div(gravity, gm.frameRate));
 
-		if (Math.abs(velocity.x) + Math.abs(velocity.y) < 0.01) {
-			velocity.mul(0);
-			angularVelocity = 0;
-		}
+		
 
 		transform.position.add(Vector.div(velocity, gm.frameRate));
 		transform.rotation += angularVelocity / gm.frameRate;
@@ -60,21 +60,27 @@ public class Ball {
 			velocity.x *= bounceFriction;
 			transform.position.x = 0 + AngleCollision();
 			doCollision();
-		}
-		if (transform.position.x > Transform.UPW - AngleCollision()) {
+		} else if (transform.position.x > Transform.UPW - AngleCollision()) {
 			velocity.x *= bounceFriction;
 			transform.position.x = Transform.UPW - AngleCollision();
 			doCollision();
-		}
-		if (transform.position.y < gm.terrain.groundHeight + AngleCollision()) {
-			velocity.y *= bounceFriction;
-			transform.position.y = gm.terrain.groundHeight + AngleCollision();
-			doCollision();
-		}
-		if (transform.position.y > Transform.UPH - AngleCollision()) {
+		} else if (transform.position.y < gm.terrain.groundHeight + AngleCollision()) {
+			if (touchingGround) {
+				velocity.mul(0);
+				angularVelocity *= 0;
+				transform.position.y = gm.terrain.groundHeight + AngleCollision();
+			} else {
+				velocity.y *= bounceFriction;
+				transform.position.y = gm.terrain.groundHeight + AngleCollision();
+				doCollision();
+				touchingGround = true;
+			}
+		} else if (transform.position.y > Transform.UPH - AngleCollision()) {
 			velocity.y *= bounceFriction;
 			transform.position.y = Transform.UPH - AngleCollision();
 			doCollision();
+		} else {
+			touchingGround = false;
 		}
 
 		draw();
