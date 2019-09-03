@@ -118,6 +118,17 @@ public class Cannon {
 		loadedBall = ammunition.pop();
 		return true;
 	}
+	
+	/**
+	 * Returns {@code true} or {@code false} whether or not the cannon is loaded. 
+	 * @return
+	 */
+	public boolean isLoaded () {
+		if (loadedBall == null) {
+			return false;
+		}
+		return true;
+	}
 
 	/**
 	 * Attempt to shoot the {@link #loadedBall loaded ball} and put

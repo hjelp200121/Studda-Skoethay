@@ -143,7 +143,7 @@ public class GameManager extends PApplet {
 		cannon.update();
 
 		/* Draw & charge the charge bar */
-		if (!ammunition.isEmpty()) {
+		if (!ammunition.isEmpty() || cannon.isLoaded()) {
 			if (pressingSpace) {
 				bar.charge();
 			}
