@@ -82,7 +82,7 @@ public class Ball {
 		} else {
 			touchingGround = false;
 		}
-
+		
 		draw();
 	}
 
