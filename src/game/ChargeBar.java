@@ -32,11 +32,11 @@ public class ChargeBar {
 	}
 
 	public ChargeBar(Vector pos, Vector scale, float chargeSpeed, int barCount) {
-		this(pos, scale, 0f, chargeSpeed, barCount, Color.red(), Color.green(), new Color(0xAA555555), new Color(0xAAAAAAAA));
+		this(pos, scale, 0f, chargeSpeed, barCount, Color.green(), Color.red(), new Color(0xAA555555), new Color(0xAAAAAAAA));
 	}
 	
 	public ChargeBar(Vector pos, Vector scale) {
-		this(pos, scale, 0f, 1f, 10, Color.green(), Color.red(), new Color(0xAA555555), new Color(0xAAAAAAAA));
+		this(pos, scale, 1f, 10);
 	}
 	
 	public void charge () {
