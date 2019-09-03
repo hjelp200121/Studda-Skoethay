@@ -8,13 +8,14 @@ public class Ball {
 
 	public Transform transform;
 	public Vector velocity;
-	public static float friction = 0.5f;
+	public static float airResistance = 0.5f;
 	public float angularVelocity;
 	static String ballPath = "data/cannonBall.png";
 	static String ballPathAlt = "data/cannonBallAlt.png";
 	private PImage cannonBall;
 	static public Vector gravity = Vector.mul(Vector.down(), 10f);
 	private int randBall;
+	public float bounceFriction = -0.25f;
 
 	/** Constructor for a ball */
 	Ball(Vector pos, Vector scale, Vector vel, float angularVel) {
@@ -43,7 +44,7 @@ public class Ball {
 	void update() {
 
 		// changing position and speed
-		velocity.sub(Vector.div(Vector.mul(velocity, friction), (gm.frameRate)));
+		velocity.sub(Vector.div(Vector.mul(velocity, airResistance), (gm.frameRate)));
 		velocity.add(Vector.div(gravity, gm.frameRate));
 
 		if (Math.abs(velocity.x) + Math.abs(velocity.y) < 0.01) {
@@ -56,22 +57,22 @@ public class Ball {
 
 		/* Check for wall bounds and bounce off of them. */
 		if (transform.position.x < 0 + AngleCollision()) {
-			velocity.x *= -1;
+			velocity.x *= bounceFriction;
 			transform.position.x = 0 + AngleCollision();
 			doCollision();
 		}
 		if (transform.position.x > Transform.UPW - AngleCollision()) {
-			velocity.x *= -1;
+			velocity.x *= bounceFriction;
 			transform.position.x = Transform.UPW - AngleCollision();
 			doCollision();
 		}
 		if (transform.position.y < gm.terrain.groundHeight + AngleCollision()) {
-			velocity.y *= -1;
+			velocity.y *= bounceFriction;
 			transform.position.y = gm.terrain.groundHeight + AngleCollision();
 			doCollision();
 		}
 		if (transform.position.y > Transform.UPH - AngleCollision()) {
-			velocity.y *= -1;
+			velocity.y *= bounceFriction;
 			transform.position.y = Transform.UPH - AngleCollision();
 			doCollision();
 		}
