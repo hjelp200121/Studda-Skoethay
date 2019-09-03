@@ -51,11 +51,13 @@ public class GameManager extends PApplet {
 	/** size and initialisation */
 	public void settings() {
 		/* Process command line arguments. */
-		for (String arg : args) {
-			System.out.println(arg);
-			if (arg.equals("--skip-emil")) {
-				introScreen = false;
-				fadeIn = 0;
+		if (args != null) {
+			for (String arg : args) {
+				System.out.println(arg);
+				if (arg.equals("--skip-emil")) {
+					introScreen = false;
+					fadeIn = 0;
+				}
 			}
 		}
 		
