@@ -39,7 +39,7 @@ public class GameManager extends PApplet {
 	boolean pressingSpace = false;
 	
 	/*Variables to do with the intro*/
-	boolean introScreen = true, emilShown = false;
+	boolean introScreen = false, emilShown = false;
 	static String emilPath = "data/emilLogo.png";
 	private PImage emilLogo;
 	float emilTimer;
