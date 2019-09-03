@@ -25,10 +25,12 @@ public class GameManager extends PApplet {
 	public List<Ball> balls;
 	Cannon cannon;
 	public Terrain terrain;
+	public ChargeBar bar;
 
 	/* User input state. */
 	boolean pressingUp = false;
 	boolean pressingDown = false;
+	boolean pressingSpace = false;
 
 	/** size and initialisation */
 	public void settings() {
@@ -43,15 +45,16 @@ public class GameManager extends PApplet {
 
 	/** basic settings */
 	public void setup() {
-		frame.setTitle("Studda Skøthay");
+		frame.setTitle("Studda Skï¿½thay");
 		frameRate(60);
 		smooth();
 		background(255);
+		bar = new ChargeBar(new Vector(1f, 5f), new Vector(1.5f, 3f), 1f, 10);
 		/* Initialise terrain. */
 		terrain = new Terrain(groundHeight, new Color(0xff9b7653));
 		/* Initialise the cannon. */
 		cannon = new Cannon(new Vector(2.5f, groundHeight + 0.5f), new Vector(1f, 1f), ammunition, -PI / 5, 0, PI / 5,
-				PI / 4, 15f);
+				PI / 4, 10f);
 		/* Load ammunition into the stack. */
 		refillAmmunition();
 	}
@@ -64,6 +67,9 @@ public class GameManager extends PApplet {
 			cannon.rotate(true);
 		} else if (pressingDown && !pressingUp) {
 			cannon.rotate(false);
+		}
+		if (pressingSpace) {
+			bar.charge();
 		}
 
 		background(255);
@@ -81,6 +87,9 @@ public class GameManager extends PApplet {
 		}
 		/* Draw the cannon. */
 		cannon.update();
+
+		/* Draw the charge bar */
+		bar.draw();
 	}
 
 	/** Instantly refill the stack of ammunition. */
@@ -124,10 +133,8 @@ public class GameManager extends PApplet {
 			} else if (key == 's' || key == 'S') {
 				pressingDown = true;
 			} else if (key == ' ') {
-				/*
-				 * When the user presses 'space', add a new ball to the stack.
-				 */
-				cannon.shoot();
+				cannon.loadCannon();
+				pressingSpace = true;
 			}
 		}
 	}
@@ -144,6 +151,10 @@ public class GameManager extends PApplet {
 				pressingUp = false;
 			} else if (key == 's' || key == 'S') {
 				pressingDown = false;
+			} else if (key == ' ') {
+				cannon.shoot(bar.chargeAmount);
+				bar.chargeAmount = 0f;
+				pressingSpace = false;
 			}
 		}
 	}

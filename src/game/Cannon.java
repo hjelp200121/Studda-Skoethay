@@ -13,6 +13,9 @@ public class Cannon {
 	static GameManager gm = GameManager.gm;
 	/* The angle of the cannon barrel in its neutral position. */
 	static float basisAngle = PApplet.HALF_PI / 2f;
+	
+	static float minCharge = 0.5f;
+	static float maxCharge = 2f;
 
 	/* The image resources. */
 	static String basePath = "data/cannonBase.png";
@@ -25,6 +28,9 @@ public class Cannon {
 	public float angle, minAngle, maxAngle, rotationSpeed, power;
 	/* The offset of the cannon barrel relative to the object position. */
 	public Vector barrelOffset;
+	
+	/* The ball currently loaded into the cannon. */
+	private Ball loadedBall = null;
 
 	private PImage cannonBase, cannonBarrel;
 
@@ -97,19 +103,33 @@ public class Cannon {
 		gm.image(cannonBase, 0, 0);
 		gm.popMatrix();
 	}
+	
+	/**
+	 * Attempt to load a ball from the {@link #ammunition ammunition stack} into
+	 * the cannon. If there is no ammunition to load, or there is already ammunition returns {@code false},
+	 * otherwise {@code true}.
+	 * 
+	 * @return {@code true} when loading the ammunition successfully, otherwise {@code false}.
+	 */
+	public boolean loadCannon () {
+		if (loadedBall != null || ammunition.isEmpty()) {
+			return false;
+		}
+		loadedBall = ammunition.pop();
+		return true;
+	}
 
 	/**
-	 * Attempt to shoot a ball from the {@link #ammunition ammunition stack} and put
+	 * Attempt to shoot the {@link #loadedBall loaded ball} and put
 	 * it into the {@link game.GameManager#balls list of balls}.
 	 * 
-	 * If there is ammunition for the cannon to shoot, it will return {@code true},
+	 * If there is a loaded ball for the cannon to shoot, it will return {@code true},
 	 * otherwise {@code false}.
 	 * 
-	 * @return {@code true} when there is ammunition to shoot, otherwise {@code false}.
+	 * @return {@code true} when there is a loaded ball to shoot, otherwise {@code false}.
 	 */
-	public boolean shoot() {
-		if (ammunition.size() > 0) {
-			Ball ball = ammunition.pop();
+	public boolean shoot(float charge) {
+		if (loadedBall != null) {
 			/* Correctly position the ball inside the barrel. */
 			Vector pos = new Vector(barrelOffset);
 			pos.rotate(-angle);
@@ -119,15 +139,17 @@ public class Cannon {
 			// Add a little extra angle to compensate for gravity
 			force.rotate(Cannon.basisAngle - angle + PConstants.PI / 36f);
 			force.mul(power);
+			force.mul(minCharge + charge * (maxCharge - minCharge));
 			/* Assign a random rotation to the ball. */
 			float angularVel = gm.random(20f) - 10f;
 
-			ball.transform.position = pos;
-			ball.velocity.add(force);
-			ball.angularVelocity = angularVel;
+			loadedBall.transform.position = pos;
+			loadedBall.velocity.add(force);
+			loadedBall.angularVelocity = angularVel;
 
 			/* Add the ball to the list of balls in the scene. */
-			gm.balls.add(ball);
+			gm.balls.add(loadedBall);
+			loadedBall = null;
 
 			return true;
 		}

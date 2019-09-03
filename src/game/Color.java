@@ -23,6 +23,10 @@ public class Color {
 		);
 	}
 	
+	public Color (Color c) {
+		this(c.r, c.g, c.b, c.a);
+	}
+	
 	/* Static colors. */
 
 	static Color white () {
