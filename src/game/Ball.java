@@ -1,5 +1,7 @@
 package game;
 
+import java.util.List;
+
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -17,13 +19,15 @@ public class Ball {
 	private int randBall;
 	public float bounceFriction = -0.25f;
 	boolean touchingGround = false;
+	public List<Target> targets;
 
 	/** Constructor for a ball */
-	Ball(Vector pos, Vector scale, Vector vel, float angularVel) {
+	Ball(Vector pos, Vector scale, Vector vel, float angularVel, List<Target> targets) {
 		transform = new Transform(pos, scale, 0f);
 		velocity = vel;
 		angularVelocity = angularVel;
 		randBall = PApplet.floor(gm.random(100));
+		this.targets = targets;
 		if (randBall == 0) {
 			this.cannonBall = gm.loadImage(ballPathAlt);
 		} else {
@@ -35,8 +39,8 @@ public class Ball {
 	}
 
 	/** Constructor for a ball */
-	Ball(Vector pos, Vector vel, float angularVel) {
-		this(pos, Vector.one(), vel, angularVel);
+	Ball(Vector pos, Vector vel, float angularVel, List<Target> targets) {
+		this(pos, Vector.one(), vel, angularVel, targets);
 	}
 
 	/**
@@ -82,7 +86,7 @@ public class Ball {
 		} else {
 			touchingGround = false;
 		}
-		
+		targetCollision();
 		draw();
 	}
 
@@ -96,6 +100,7 @@ public class Ball {
 		gm.rotate(transform.rotation);
 		gm.image(cannonBall, 0, 0);
 		gm.popMatrix();
+		
 	}
 
 	/** changes rotation when hitting a wall/ground */
@@ -104,11 +109,17 @@ public class Ball {
 	}
 	
 	/** destroys the target when it is hit */
-	/* public void ballCollision() {
-		if() {
-			
+	public void targetCollision() {
+		for (Target t: targets) {
+			if(transform.position.x + AngleCollision() < t.transform.position.x + t.transform.scale.x &&
+					transform.position.x - AngleCollision() > t.transform.position.x - t.transform.scale.x &&
+					transform.position.y + AngleCollision() < t.transform.position.y + t.transform.scale.y &&
+					transform.position.y - AngleCollision() > t.transform.position.y - t.transform.scale.y) {
+
+				//do something
+			}
 		}
-	} /*
+	}
 
 	/** makes the hitbox as a function of the angle */
 	float AngleCollision() {

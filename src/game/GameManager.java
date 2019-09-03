@@ -156,7 +156,7 @@ public class GameManager extends PApplet {
 				if (skip == 0) {
 					Vector pos = new Vector(x, y);
 					Vector scale = new Vector(AMMO_SIZE);
-					Ball ball = new Ball(pos, scale, Vector.zero(), 0f);
+					Ball ball = new Ball(pos, scale, Vector.zero(), 0f, targets);
 					gm.ammunition.push(ball);
 				} else {
 					skip--;
