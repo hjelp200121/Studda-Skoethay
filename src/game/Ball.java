@@ -120,6 +120,7 @@ public class Ball {
 			}
 		}
 		if (hit) {
+			gm.score++;
 			targets.remove(i);
 			gm.ballsToRemove.add(this);
 		}

@@ -47,6 +47,9 @@ public class GameManager extends PApplet {
 	
 	/* Miscellaneous variables*/
 	int fadeIn = 280;
+	
+	/* Variables to do with the score system*/
+	int score = 0;
 
 	/** size and initialisation */
 	public void settings() {
@@ -160,6 +163,11 @@ public class GameManager extends PApplet {
 			}
 		bar.draw();
 		}
+		
+		/* Draws various text*/
+		textSize(32);
+		fill(255);
+		text("Score: " + score, 30, 40);
 		
 		/* Draw the fade in */
 		if (fadeIn > 0) {
