@@ -82,7 +82,7 @@ public class Ball {
 		} else {
 			touchingGround = false;
 		}
-
+		
 		draw();
 	}
 
@@ -102,6 +102,13 @@ public class Ball {
 	void doCollision() {
 		angularVelocity *= (float) -Math.cos(transform.rotation);
 	}
+	
+	/** destroys the target when it is hit */
+	/* public void ballCollision() {
+		if() {
+			
+		}
+	} /*
 
 	/** makes the hitbox as a function of the angle */
 	float AngleCollision() {
