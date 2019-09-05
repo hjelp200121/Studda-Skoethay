@@ -30,7 +30,7 @@ public class Cannon {
 	public Vector barrelOffset;
 	
 	/* The ball currently loaded into the cannon. */
-	private Ball loadedBall = null;
+	public Ball loadedBall = null;
 
 	private PImage cannonBase, cannonBarrel;
 

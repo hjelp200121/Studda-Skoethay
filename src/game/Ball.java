@@ -120,7 +120,10 @@ public class Ball {
 			}
 		}
 		if (hit) {
-			gm.score++;
+			gm.score += gm.stageCount;
+			if(gm.highscore < gm.score) {
+				gm.highscore = gm.score;
+			}
 			targets.remove(i);
 			gm.ballsToRemove.add(this);
 		}

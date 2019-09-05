@@ -47,10 +47,13 @@ public class GameManager extends PApplet {
 	
 	/* Miscellaneous variables*/
 	int fadeIn = 280;
+	boolean playing = true;
+	int defeatOpacity = 0;
 	
 	/* Variables to do with the score system*/
 	int stageCount;
 	int score = 0;
+	int highscore;
 
 	/** size and initialisation */
 	public void settings() {
@@ -115,9 +118,12 @@ public class GameManager extends PApplet {
 			}
 			if (emilTimer < 0) {
 				introScreen = false;
+				playing = true;
 			}
-		} else {
+		} else if(playing){
 			tick();
+		} else {
+			defeat();
 		}
 	}
 	
@@ -146,7 +152,6 @@ public class GameManager extends PApplet {
 		/* Draw the active balls. */
 		for (Ball b : balls) {
 			b.update();
-
 		}
 		/* Draw the targets */
 		for (Target t : targets) {
@@ -164,6 +169,7 @@ public class GameManager extends PApplet {
 		bar.draw();
 		}
 		
+		/*Segment concerning the level system*/
 		if(targets.size() == 0) {
 			stageCount ++;
 			spawnTargets(3);
@@ -180,24 +186,24 @@ public class GameManager extends PApplet {
 				}
 			}
 			if(allStill && !cannon.isLoaded()) {
-				stageCount = 1;
-				score = 0;
-				while (targets.size() > 0) {
-					targets.remove(0);
-				}
-				spawnTargets(3);
-				for(Ball b: balls) {
-					ballsToRemove.add(b);
-				}
-				refillAmmunition();
+				playing = false;
 			}
 		}
 		
 		/* Draws various text*/
 		textSize(32);
+		textAlign(LEFT);
 		fill(255);
 		text("Stage: " + stageCount, 30, 40);
 		text("Score: " + score, 30, 80);
+		
+		/*Draws fade in from defeat*/
+		if(defeatOpacity > 0) {
+			defeatOpacity -=3;
+		}
+		fill(0,0,0,defeatOpacity);
+		rectMode(CORNER);
+		rect(0,0,width,height);
 		
 		/* Draw the fade in */
 		if (fadeIn > 0) {
@@ -206,6 +212,45 @@ public class GameManager extends PApplet {
 			rect(0,0,width,height);
 			fadeIn -= 3;
 		}
+	}
+	
+	public void defeat() {
+		
+		if(frameCount % 3 == 0) {
+			defeatOpacity +=1;
+		}
+		
+		/* Draws overlay*/
+		fill(0,0,0,defeatOpacity);
+		rectMode(CORNER);
+		rect(0,0,width,height);
+		
+		/* Draws various text*/
+		textSize(144);
+		textAlign(CENTER);
+		fill(255,5,5,defeatOpacity);
+		text("YOU DIED",width/2f,height/2f);
+		textSize(34);
+		fill(255,255,255,defeatOpacity);
+		text("Score: " + score,width/2f ,height - height/3f);
+		text("Highscore: " + highscore,width/2f,height - height/4f);
+		fill(100,100,100,defeatOpacity-40);
+		text("Press 'R' to restart",width/2f,height/5f);
+	}
+	
+	public void resetLevel() {
+		while (targets.size() > 0) {
+			targets.remove(0);
+		}
+		spawnTargets(3);
+		for(Ball b: balls) {
+			ballsToRemove.add(b);
+		}
+		cannon.loadedBall = null;
+		bar.chargeAmount = 0;
+		refillAmmunition();
+		pressingSpace = false;
+		playing = true;
 	}
 
 	/** Instantly refill the stack of ammunition. */
@@ -257,6 +302,12 @@ public class GameManager extends PApplet {
 			} else if (key == ' ') {
 				cannon.loadCannon();
 				pressingSpace = true;
+			} else if (key == 'r') {
+				score = 0;
+				stageCount = 1;
+				defeatOpacity = (defeatOpacity * (defeatOpacity + 1))/2;
+				defeatOpacity = defeatOpacity > 255 ? 255 : defeatOpacity;
+				resetLevel();
 			}
 		}
 	}
