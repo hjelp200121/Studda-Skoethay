@@ -49,6 +49,7 @@ public class GameManager extends PApplet {
 	int fadeIn = 280;
 	
 	/* Variables to do with the score system*/
+	int stageCount;
 	int score = 0;
 
 	/** size and initialisation */
@@ -81,15 +82,14 @@ public class GameManager extends PApplet {
 		frameRate(60);
 		smooth();
 		background(255);
+		stageCount = 1;
 		bar = new ChargeBar(new Vector(1f, 5f), new Vector(1.5f, 3f), 1f, 10);
 		/* Initialise terrain. */
 		terrain = new Terrain(groundHeight, new Color(0xff9b7653));
 		/* Initialise the cannon and targets */
 		cannon = new Cannon(new Vector(2.5f, groundHeight + 0.5f), new Vector(1f, 1f), ammunition, -PI / 5, 0, PI / 5,
 				PI / 4, 10f);
-		targets.add(new Target(new Vector(random(5f,15f),random(2f,8f)),new Vector(targetSize)));
-		targets.add(new Target(new Vector(random(5f,15f),random(2f,8f)),new Vector(targetSize)));
-		targets.add(new Target(new Vector(random(5f,15f),random(2f,8f)),new Vector(targetSize)));
+		spawnTargets(3);
 		/* Load ammunition into the stack. */
 		refillAmmunition();
 		/* Initialise emil */
@@ -164,10 +164,40 @@ public class GameManager extends PApplet {
 		bar.draw();
 		}
 		
+		if(targets.size() == 0) {
+			stageCount ++;
+			spawnTargets(3);
+			for(Ball b: balls) {
+				ballsToRemove.add(b);
+			}
+			refillAmmunition();
+		} else if(ammunition.size() == 0){
+			boolean allStill = true;
+			for(Ball b: balls) {
+				if(!b.touchingGround) {
+					allStill = false;
+					break;
+				}
+			}
+			if(allStill && !cannon.isLoaded()) {
+				stageCount = 1;
+				score = 0;
+				while (targets.size() > 0) {
+					targets.remove(0);
+				}
+				spawnTargets(3);
+				for(Ball b: balls) {
+					ballsToRemove.add(b);
+				}
+				refillAmmunition();
+			}
+		}
+		
 		/* Draws various text*/
 		textSize(32);
 		fill(255);
-		text("Score: " + score, 30, 40);
+		text("Stage: " + stageCount, 30, 40);
+		text("Score: " + score, 30, 80);
 		
 		/* Draw the fade in */
 		if (fadeIn > 0) {
@@ -202,6 +232,12 @@ public class GameManager extends PApplet {
 			}
 			y += AMMO_SIZE.y * margin;
 			stack--;
+		}
+	}
+	
+	public void spawnTargets (int targetCount) {
+		for(int i = 0; i < targetCount; i++) {
+			targets.add(new Target(new Vector(random(5f,15f),random(2f,8f)),new Vector(targetSize)));
 		}
 	}
 
