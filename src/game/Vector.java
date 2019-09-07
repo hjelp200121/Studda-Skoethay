@@ -77,6 +77,13 @@ public class Vector {
 		return new Vector(v.x, v.y);
 	}
 	
+	public static Vector lerp (Vector v1, Vector v2, float t) {
+		float x = v1.x + t * (v2.x - v1.x);
+		float y = v1.y + t * (v2.y - v1.y);
+
+		return new Vector(x, y);
+	}
+	
 	public static float dist (Vector v1, Vector v2) {
 		return (float) Math.sqrt((v1.x - v2.x)*(v1.x - v2.x) + (v1.y - v2.y)*(v1.y - v2.y));
 	}
