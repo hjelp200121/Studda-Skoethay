@@ -49,6 +49,7 @@ public class GameManager extends PApplet {
 	int fadeIn = 280;
 	boolean playing = true;
 	int defeatOpacity = 0;
+	int targetCount = 1;
 	
 	/* Variables to do with the score system*/
 	int stageCount;
@@ -92,7 +93,7 @@ public class GameManager extends PApplet {
 		/* Initialise the cannon and targets */
 		cannon = new Cannon(new Vector(2.5f, groundHeight + 0.5f), new Vector(1f, 1f), ammunition, -PI / 5, 0, PI / 5,
 				PI / 4, 10f);
-		spawnTargets(3);
+		spawnTargets(targetCount);
 		/* Load ammunition into the stack. */
 		refillAmmunition();
 		/* Initialise emil */
@@ -172,7 +173,12 @@ public class GameManager extends PApplet {
 		/*Segment concerning the level system*/
 		if(targets.size() == 0) {
 			stageCount ++;
-			spawnTargets(3);
+			if(targetCount < 10) {
+				targetCount = ceil(stageCount/5f);
+			} else {
+				targetCount = 10;
+			}
+			spawnTargets(targetCount);
 			for(Ball b: balls) {
 				ballsToRemove.add(b);
 			}
@@ -242,7 +248,8 @@ public class GameManager extends PApplet {
 		while (targets.size() > 0) {
 			targets.remove(0);
 		}
-		spawnTargets(3);
+		targetCount = 1;
+		spawnTargets(targetCount);
 		for(Ball b: balls) {
 			ballsToRemove.add(b);
 		}
