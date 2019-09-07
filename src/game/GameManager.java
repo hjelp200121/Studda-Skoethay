@@ -321,7 +321,6 @@ public class GameManager extends PApplet {
 				}
 				/* Randomize speed. */
 				float targetCircuitDuration = targetBaseCircuitDuration * (targetPointsCount - 1);
-				System.out.println(targetCircuitDuration);
 				/* Pick a random move type. */
 				MoveType moveType = random(0, 1) > 0.5f ? MoveType.LOOP : MoveType.BOUNCE;
 				targets.add(new Target(targetPos, targetSize, targetCircuitDuration, points, moveType));
