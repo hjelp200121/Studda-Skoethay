@@ -120,7 +120,7 @@ public class Ball {
 			}
 		}
 		if (hit) {
-			gm.score += gm.stageCount;
+			gm.score += 1;
 			if(gm.highscore < gm.score) {
 				gm.highscore = gm.score;
 			}

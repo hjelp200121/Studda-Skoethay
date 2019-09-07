@@ -93,7 +93,7 @@ public class GameManager extends PApplet {
 		terrain = new Terrain(groundHeight, new Color(0xff9b7653));
 		/* Initialise the cannon and targets */
 		cannon = new Cannon(new Vector(2.5f, groundHeight + 0.5f), new Vector(1f, 1f), ammunition, -PI / 5, 0, PI / 5,
-				PI / 4, 10f);
+				PI / 3, 10f);
 		spawnTargets(stageCount);
 		/* Load ammunition into the stack. */
 		refillAmmunition();
@@ -174,6 +174,7 @@ public class GameManager extends PApplet {
 		/* Segment concerning the level system */
 		if (targets.size() == 0) {
 			stageCount++;
+			score += ammunition.size();
 			spawnTargets(stageCount);
 			for (Ball b : balls) {
 				ballsToRemove.add(b);
